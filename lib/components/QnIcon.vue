@@ -3,6 +3,7 @@ import { NIcon } from 'naive-ui'
 import type { Depth } from 'naive-ui/lib/icon/src/Icon'
 import {
   Add,
+  Application,
   ArrowDown,
   ArrowUp,
   Checkmark,
@@ -29,9 +30,32 @@ import {
 } from '@vicons/carbon'
 import { computed } from 'vue'
 
-export type Icon = 'add' | 'ban' | 'check' | 'check-filled' | 'check-outline' | 'close' | 'close-filled' |
-    'close-outline' | 'copy' | 'delete' | 'dot' | 'down' | 'download' | 'edit' | 'info' | 'layers' | 'locked' |
-    'logout' | 'reset' | 'search' | 'setup' | 'up' | 'upload' | 'user'
+export type Icon =
+    'add'
+    | 'application'
+    | 'ban'
+    | 'check'
+    | 'check-filled'
+    | 'check-outline'
+    | 'close'
+    | 'close-filled'
+    | 'close-outline'
+    | 'copy'
+    | 'delete'
+    | 'dot'
+    | 'down'
+    | 'download'
+    | 'edit'
+    | 'info'
+    | 'layers'
+    | 'locked'
+    | 'logout'
+    | 'reset'
+    | 'search'
+    | 'setup'
+    | 'up'
+    | 'upload'
+    | 'user'
 
 export interface IconProps {
   icon?: Icon
@@ -48,6 +72,7 @@ const icon0 = computed(() => {
     return null
   return {
     'add': Add,
+    'application': Application,
     'ban': Error,
     'check': Checkmark,
     'check-filled': CheckmarkFilled,
