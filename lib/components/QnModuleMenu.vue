@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NLayoutSider, NMenu } from 'naive-ui'
-// import type { MenuOption } from 'naive-ui/lib/menu/src/interface'
+import type { MenuOption } from 'naive-ui/lib/menu/src/interface'
 import { computed } from 'vue'
 
 export interface Option {
@@ -23,8 +23,13 @@ const props = withDefaults(defineProps<ModuleMenuProps>(), {
 })
 
 // 转换为MenuOption
-const options0 = computed(() => {
-
+const options0 = computed((): MenuOption[] => {
+  return props.options.map(e => {
+    return {
+      key: e.id,
+      label: e.name,
+    }
+  })
 })
 
 
@@ -39,7 +44,7 @@ const rightOptions = computed(() => props.options.filter(e => e.parentId === pro
                   inverted bordered
   >
     <n-menu :value="moduleId"
-            :options="leftOptions"
+            :options="options0"
     ></n-menu>
   </n-layout-sider>
   <!-- 右侧菜单 -->
@@ -49,7 +54,7 @@ const rightOptions = computed(() => props.options.filter(e => e.parentId === pro
                   collapse-mode="width"
   >
     <n-menu :value="menuId"
-            :options="rightOptions"
+            :options="options0"
     ></n-menu>
   </n-layout-sider>
 </template>
