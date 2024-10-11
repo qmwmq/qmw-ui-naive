@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { NLayoutSider, NMenu } from 'naive-ui'
+// import type { MenuOption } from 'naive-ui/lib/menu/src/interface'
 import { computed } from 'vue'
 
 export interface Option {
@@ -18,8 +19,15 @@ export interface ModuleMenuProps {
 const props = withDefaults(defineProps<ModuleMenuProps>(), {
   moduleId: '',
   menuId: '',
-  options: [],
+  options: () => [],
 })
+
+// 转换为MenuOption
+const options0 = computed(() => {
+
+})
+
+
 const leftOptions = computed(() => props.options.filter(e => !e.parentId))
 const rightOptions = computed(() => props.options.filter(e => e.parentId === props.moduleId))
 
