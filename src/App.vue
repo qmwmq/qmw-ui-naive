@@ -1,1 +1,65 @@
-<template></template>
+<template>
+
+  <qn-module-menu :options="menus"
+                  v-model:module-id="id"
+                  v-model:menuId="id2"
+  ></qn-module-menu>
+
+</template>
+<script setup lang="ts">
+import { QnModuleMenu } from '../lib'
+import { ref } from 'vue'
+
+const id = ref(0)
+const id2 = ref(0)
+
+const menus = [ {
+  "id": 1,
+  "parentId": 0,
+  "sequence": 0,
+  "name": "首页",
+  "icon": "",
+  "path": "",
+  "deleted": "0"
+}, {
+  "id": 2,
+  "parentId": 0,
+  "sequence": 0,
+  "name": "记账管理",
+  "icon": "application",
+  "path": "",
+  "deleted": "0"
+}, { "id": 3, "parentId": 2, "sequence": 0, "name": "收入", "icon": "", "path": "", "deleted": "0" }, {
+  "id": 4,
+  "parentId": 2,
+  "sequence": 0,
+  "name": "支出",
+  "icon": "",
+  "path": "",
+  "deleted": "0"
+}, { "id": 5, "parentId": 2, "sequence": 0, "name": "统计", "icon": "", "path": "", "deleted": "0" }, {
+  "id": 6,
+  "parentId": 2,
+  "sequence": 0,
+  "name": "分类设置",
+  "icon": "",
+  "path": "",
+  "deleted": "0"
+}, {
+  "id": 7,
+  "parentId": 0,
+  "sequence": 0,
+  "name": "看房工具",
+  "icon": "application",
+  "path": "",
+  "deleted": "0"
+}, { "id": 8, "parentId": 7, "sequence": 0, "name": "小区", "icon": "", "path": "", "deleted": "0" }, {
+  "id": 9,
+  "parentId": 7,
+  "sequence": 0,
+  "name": "房",
+  "icon": "",
+  "path": "",
+  "deleted": "0"
+} ]
+</script>
