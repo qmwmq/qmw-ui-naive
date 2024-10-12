@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import { NLayoutSider, NMenu } from 'naive-ui'
 import type { MenuOption } from 'naive-ui/lib/menu/src/interface'
-import { computed, type VNodeChild } from 'vue'
+import { computed, ref, type VNodeChild } from 'vue'
 import type { Icon } from './QnIcon.vue'
 import QnIcon from './QnIcon.vue'
 import { ArrayUtils } from 'qmwts'
@@ -57,6 +57,8 @@ const renderLeftLabel = (option: MenuOption): VNodeChild =>
       <div>{ option.label }</div>
     </div>
 
+const collapsed = ref(false)
+
 defineEmits([ 'update:module-id', 'update:menu-id' ])
 </script>
 <template>
@@ -66,6 +68,7 @@ defineEmits([ 'update:module-id', 'update:menu-id' ])
                   inverted
                   bordered
   >
+    <slot name="left-header"></slot>
     <n-menu :value="moduleId"
             :options="leftOptions"
             :render-label="renderLeftLabel"
@@ -80,7 +83,11 @@ defineEmits([ 'update:module-id', 'update:menu-id' ])
                   :width="170"
                   bordered
                   collapse-mode="width"
+                  :collapsed-width="0"
+                  :show-trigger="'arrow-circle'"
+                  v-model:collapsed="collapsed"
   >
+    <slot name="right-header" :module="leftOptions.find(e => e.key === moduleId) || {}"></slot>
     <n-menu :value="menuId"
             :options="rightOptions"
             :indent="20"
