@@ -1,6 +1,5 @@
 <script setup lang="tsx">
-import { NLayoutSider, NMenu } from 'naive-ui'
-import type { MenuOption } from 'naive-ui/lib/menu/src/interface'
+import { type MenuOption, NLayoutSider, NMenu } from 'naive-ui'
 import { computed, ref, type VNodeChild } from 'vue'
 import type { Icon } from './QnIcon.vue'
 import QnIcon from './QnIcon.vue'
@@ -14,13 +13,11 @@ export interface Option {
   path: string
 }
 
-export interface ModuleMenuProps {
+const props = withDefaults(defineProps<{
   moduleId: number | string
   menuId: number | string
   options: Option[]
-}
-
-const props = withDefaults(defineProps<ModuleMenuProps>(), {
+}>(), {
   moduleId: '',
   menuId: '',
   options: () => [],

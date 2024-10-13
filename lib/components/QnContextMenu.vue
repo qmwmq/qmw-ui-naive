@@ -3,18 +3,7 @@ import { NDropdown } from 'naive-ui'
 import { nextTick, ref } from 'vue'
 import type { DropdownMixedOption } from 'naive-ui/lib/dropdown/src/interface'
 
-export interface DropdownProps {
-  options: DropdownMixedOption[]
-}
-
-// export interface DropdownOption   {
-//   key: string | number
-//   label: string | number
-//   icon?: () => VNodeChild
-//   action?: Function
-// }
-
-withDefaults(defineProps<DropdownProps>(), {
+withDefaults(defineProps<{ options: DropdownMixedOption[] }>(), {
   options: () => [],
 })
 

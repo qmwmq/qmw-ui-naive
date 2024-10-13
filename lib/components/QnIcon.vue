@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { NIcon } from 'naive-ui'
+import { computed } from 'vue'
 import type { Depth } from 'naive-ui/lib/icon/src/Icon'
 import {
   Add,
@@ -28,7 +29,6 @@ import {
   Upload,
   User,
 } from '@vicons/carbon'
-import { computed } from 'vue'
 
 export type Icon =
     'add'
@@ -57,13 +57,11 @@ export type Icon =
     | 'upload'
     | 'user'
 
-export interface IconProps {
+const props = withDefaults(defineProps<{
   icon?: Icon
   size?: number
   depth?: Depth
-}
-
-const props = withDefaults(defineProps<IconProps>(), {
+}>(), {
   size: 16,
 })
 
