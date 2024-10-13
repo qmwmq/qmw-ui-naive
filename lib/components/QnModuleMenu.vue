@@ -51,6 +51,10 @@ const rightOptions = computed((): MenuOption[] => {
   else return []
 })
 
+const activeModule = computed((): MenuOption => {
+  return leftOptions.value.find(e => e.key === props.moduleId) || {}
+})
+
 const renderLeftLabel = (option: MenuOption): VNodeChild =>
     <div class="menu-content">
       <QnIcon icon={ option.iconName as Icon } size={ 20 }></QnIcon>
@@ -59,6 +63,10 @@ const renderLeftLabel = (option: MenuOption): VNodeChild =>
 
 const collapsed = ref(false)
 
+defineSlots<{
+  'left-header'(): any
+  'right-header'(props: { module: MenuOption }): any
+}>()
 defineEmits([ 'update:module-id', 'update:menu-id' ])
 </script>
 <template>
@@ -87,7 +95,7 @@ defineEmits([ 'update:module-id', 'update:menu-id' ])
                   :show-trigger="'arrow-circle'"
                   v-model:collapsed="collapsed"
   >
-    <slot name="right-header" :module="leftOptions.find(e => e.key === moduleId) || {}"></slot>
+    <slot name="right-header" :module="activeModule"></slot>
     <n-menu :value="menuId"
             :options="rightOptions"
             :indent="20"
