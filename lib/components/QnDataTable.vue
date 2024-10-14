@@ -46,7 +46,7 @@ const mapColumns = (columns: any[]) => {
     } else {
       // 自定义排序样式
       if (props.sortKey === key)
-        sortOrder = props.sortOrder
+        e.sortOrder = props.sortOrder
       // 自定义勾选样式
 
       // 自定义
