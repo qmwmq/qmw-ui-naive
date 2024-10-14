@@ -1,6 +1,5 @@
 <script setup lang="tsx">
-import { type DataTableColumn, NDataTable } from 'naive-ui'
-import { computed } from 'vue'
+import { type DataTableColumn, NDataTable, NLayoutFooter, NPagination } from 'naive-ui'
 
 export interface DataTableProps {
   columns?: DataTableColumn[]
@@ -28,11 +27,6 @@ const props = withDefaults(defineProps<DataTableProps>(), {
   total: 0,
 })
 
-const columns0 = computed(() => {
-  return props.columns.map(column => {
-
-  })
-})
 const mapColumns = (columns: any[]) => {
   return columns.map(({
                         key,
@@ -40,8 +34,8 @@ const mapColumns = (columns: any[]) => {
                         width = 100,
                         align,
                         titleAlign = 'center',
-                        sortOrder = false,
-                        sortKey,
+                        sorter = false,
+                        sortOrder = null,
                         type = void 0,
                         disabled = () => false,
                         children = void 0
@@ -56,21 +50,41 @@ const mapColumns = (columns: any[]) => {
 
       // 自定义
     }
-    return { titleAlign, sortOrder, children }
+    const e = { key, title, width, align, titleAlign, sortOrder, sorter }
+    if (children) e.children = children
+    return e
   })
 }
 
-const scrollX = 0
+// const scrollX = NumberUtils.summation(mapColumns(props.columns).map(e => e.width))
 
 </script>
 <template>
+  <pre>
+  {{ JSON.stringify(mapColumns(columns), null, 4) }}
+  </pre>
   <n-data-table :data="data"
-                :columns="columns"
+                :columns="mapColumns(columns)"
                 :loading="loading"
                 :single-column="false"
                 :single-line="false"
                 size="small"
                 remote
-                :scroll-x="scrollX"
   ></n-data-table>
+  <n-layout-footer>
+    <n-pagination :page="pageNum"
+                  :page-size="pageSize"
+                  :item-count="total"
+                  :disabled="loading"
+                  show-size-picker
+                  show-quick-jumper
+                  :page-sizes="[ 20, 50, 100 ]"
+                  :display-order="[ 'size-picker', 'quick-jumper', 'pages' ]"
+    >
+      <template #prefix>
+        <template v-if="loading">加载中...</template>
+        <template v-else>共{{ total }}条数据</template>
+      </template>
+    </n-pagination>
+  </n-layout-footer>
 </template>
