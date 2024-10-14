@@ -38,10 +38,11 @@ const mapColumns = (columns: any[]) => {
                         sortOrder = null,
                         type = void 0,
                         disabled = () => false,
-                        children = void 0
+                        children = void 0,
                       }): any => {
+    const e = { key, title, width, align, titleAlign, sortOrder, sorter }
     if (children) {
-      children = mapColumns(children)
+      e.children = mapColumns(children)
     } else {
       // 自定义排序样式
       if (props.sortKey === key)
@@ -50,8 +51,6 @@ const mapColumns = (columns: any[]) => {
 
       // 自定义
     }
-    const e = { key, title, width, align, titleAlign, sortOrder, sorter }
-    if (children) e.children = children
     return e
   })
 }
