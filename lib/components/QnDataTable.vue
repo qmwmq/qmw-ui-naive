@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { type DataTableColumn, NDataTable, NLayoutFooter, NPagination } from 'naive-ui'
+import { type DataTableColumn, NCheckbox, NDataTable, NFlex, NLayoutFooter, NPagination, NDropdown } from 'naive-ui'
 
 export interface DataTableProps {
   columns?: DataTableColumn[]
@@ -11,6 +11,7 @@ export interface DataTableProps {
   paginationPlacement?: 'top' | 'bottom' | 'fixed-bottom'
   sortOrder?: 'ascend' | 'descend' | null
   sortKey?: string | null
+  rowKey?: Function
   total?: number
 }
 
@@ -24,6 +25,7 @@ const props = withDefaults(defineProps<DataTableProps>(), {
   paginationPlacement: 'bottom',
   sortOrder: null,
   sortKey: null,
+  rowKey: row => row.id,
   total: 0,
 })
 
@@ -40,16 +42,19 @@ const mapColumns = (columns: any[]) => {
                         disabled = () => false,
                         children = void 0,
                       }): any => {
-    const e = { key, title, width, align, titleAlign, sortOrder, sorter }
+    let e = { title, titleAlign }
     if (children) {
       e.children = mapColumns(children)
+    } else if (type === 'selection') {
+      width = 50
+      align = 'center'
+      title = () => <NCheckbox></NCheckbox>
+      const render = () => <NCheckbox></NCheckbox>
+      e = { ...e, width, title, align, titleAlign, render }
     } else {
-      // 自定义排序样式
       if (props.sortKey === key)
-        e.sortOrder = props.sortOrder
-      // 自定义勾选样式
-
-      // 自定义
+        sortOrder = props.sortOrder
+      e = { ...e, key, width, align, sorter, sortOrder, type }
     }
     return e
   })
