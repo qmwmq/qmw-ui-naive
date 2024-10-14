@@ -2,6 +2,8 @@
   <qn-config-provider theme="light">
     <qn-data-table :data="records"
                    :columns="columns"
+                   v-model:sort-key="key"
+                   v-model:sort-order="order"
                    sort-key="id"
                    sort-order="descend"
     ></qn-data-table>
@@ -9,6 +11,10 @@
 </template>
 <script setup lang="ts">
 import { QnConfigProvider, QnDataTable } from '../lib'
+import { ref } from 'vue'
+
+const key = ref('id')
+const order = ref('descend')
 
 const columns = [
   {

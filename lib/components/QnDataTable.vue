@@ -57,6 +57,17 @@ const mapColumns = (columns: any[]) => {
 
 // const scrollX = NumberUtils.summation(mapColumns(props.columns).map(e => e.width))
 
+const updateSorter = ({ columnKey: sortKey, order: sortOrder }) => {
+  emits('update:sort-order', sortOrder === false ? null : sortOrder) // false转换为null方便后台判断
+  emits('update:sort-key', sortOrder === false ? null : sortKey) // false转换为null方便后台判断
+  emits('update:sort')
+}
+
+const emits = defineEmits([
+  'update:sort-order',
+  'update:sort-key',
+  'update:sort',
+])
 </script>
 <template>
   <pre>
@@ -69,6 +80,7 @@ const mapColumns = (columns: any[]) => {
                 :single-line="false"
                 size="small"
                 remote
+                @update:sorter="updateSorter"
   ></n-data-table>
   <n-layout-footer>
     <n-pagination :page="pageNum"
