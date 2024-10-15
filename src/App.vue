@@ -8,6 +8,7 @@
                      sort-key="id"
                      sort-order="descend"
                      pagination-placement="fixed-bottom"
+                     v-model:selections="selections"
       ></qn-data-table>
     </n-layout-content>
   </qn-config-provider>
@@ -19,13 +20,25 @@ import { ref } from 'vue'
 
 const key = ref('id')
 const order = ref('descend')
+const selections = ref([{id:844353}])
 
 const columns = [
-  { key: 'selection', title: 'ID', sorter: true, align: 'center', type: 'selection' },
-
-  { key: 'id', title: 'ID', sorter: true, align: 'center' },
-  { key: 'user_id', title: 'ID', sorter: true },
-  { key: 'amount', title: 'ID', sorter: true, width: 200 },
+  {
+    key: 'selection',
+    title: 'ID',
+    sorter: true,
+    align: 'center',
+    type: 'selection',
+    disabled: row => row.id % 2 === 0
+  },
+  {
+    title: 'xxxx',
+    children: [
+      { key: 'id', title: 'ID', sorter: true, align: 'center' },
+      { key: 'user_id', title: 'ID', sorter: true },
+      { key: 'amount', title: 'ID', sorter: true, width: 200 },
+    ]
+  },
 ]
 
 const records = [

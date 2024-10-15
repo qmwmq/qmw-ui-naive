@@ -1,54 +1,62 @@
 <script setup lang="tsx">
-import {
-  type DataTableColumn,
-  NCheckbox,
-  NDataTable,
-  NDropdown,
-  NFlex,
-  NIcon,
-  NLayoutFooter,
-  NPagination,
-  useThemeVars
-} from 'naive-ui'
+import { NCheckbox, NDataTable, NDropdown, NFlex, NIcon, NLayoutFooter, NPagination, useThemeVars } from 'naive-ui'
 import QnIcon from './QnIcon.vue'
 import { Checkbox, CheckboxCheckedFilled } from '@vicons/carbon'
-import { computed } from 'vue'
+import { computed, type VNodeChild, watch } from 'vue'
+import { NumberUtils } from 'qmwts'
 
 const themeVars = useThemeVars()
 
+export interface TableColumn {
+  key?: string | number
+  title?: string | (() => VNodeChild)
+  align?: 'left' | 'right' | 'center'
+  titleAlign?: 'left' | 'right' | 'center'
+  width?: number
+  render?: (e) => VNodeChild
+  sorter?: boolean
+  sortOrder?: 'ascend' | 'descend' | null
+  type?: 'selection' | null
+  disabled?: (e) => boolean
+  children?: TableColumn[]
+}
+
 export interface DataTableProps {
-  columns?: DataTableColumn[]
-  currentRow?: Function
+  activeRow?: (row: any) => boolean
+  columns?: TableColumn[]
   data?: any[]
   loading?: boolean
   pageNum?: number
   pageSize?: number
   paginationPlacement?: 'top' | 'bottom' | 'fixed-bottom'
+  selections?: any[]
   sortOrder?: 'ascend' | 'descend' | null
   sortKey?: string | null
+  summary?: Object
   rowKey?: Function
   total?: number
 }
 
 const props = withDefaults(defineProps<DataTableProps>(), {
+  activeRow: () => false,
   columns: () => [],
-  currentRow: () => false,
   data: () => [],
   loading: false,
   pageNum: 1,
   pageSize: 20,
   paginationPlacement: 'bottom',
+  selections: () => [],
   sortOrder: null,
   sortKey: null,
-  rowKey: row => row.id,
+  rowKey: (row: any) => row.id,
   total: 0,
 })
 
 const paginationProps = computed(() => {
   if (props.paginationPlacement === 'fixed-bottom') {
     return {
-      position: 'absolute',
-      style: { padding: '8px 16px', zIndex: 1 },
+      position: 'absolute' as 'absolute' | 'static' | undefined,
+      style: { padding: '8px 16px', zIndex: 10 },
       bordered: true,
     }
   } else {
@@ -58,61 +66,95 @@ const paginationProps = computed(() => {
   }
 })
 
-const mapColumns = (columns: any[]) => {
+// 勾选的check方法
+const onChecked = (checked, rows) => {
+  const o = [ ...props.selections ]
+  rows.forEach(row => {
+    const index = o.findIndex(e => props.rowKey(e) === props.rowKey(row))
+    if (checked && index >= 0) // 勾选且存在，覆盖已存在的选项
+      o.splice(index, 1, row)
+    else if (checked && index < 0) // 勾选但不存在，末尾插入
+      o.push(row)
+    else if (!checked && index >= 0) // 反选且存在，删除
+      o.splice(index, 1)
+  })
+  emits('update:selections', o)
+}
+
+const columns0 = computed(() => mapColumns(props.columns))
+const mapColumns = (columns: TableColumn[]) => {
   return columns.map(({
                         key,
-                        title,
+                        title = '',
                         width = 100,
-                        align,
+                        align = 'left',
                         titleAlign = 'center',
+                        render,
                         sorter = false,
                         sortOrder = null,
-                        type = void 0,
+                        type = null,
                         disabled = () => false,
                         children = void 0,
-                      }): any => {
-    let e = { title, titleAlign }
+                      }: TableColumn): any => {
+    let column: TableColumn = { title, titleAlign, render }
     if (children) { // 有children则继续渲染children，当前级别的表头不需要继续渲染，因为有些属性不需要生效
-      e.children = mapColumns(children)
+      column.children = mapColumns(children)
+      column.width = NumberUtils.summation(column.children.map(e => e.width)) // 因为需要计算scrollX，所以需要将children的width读取出来
     } else if (type === 'selection') { // 是勾选列则单独渲染，同样有些属性不需要生效
       width = 50
       align = 'center'
-      const titleOptions = [
-        {
-          key: 1,
-          label: () => <NFlex align="center" size={ 2 }>
-            <NIcon size={ 18 }><CheckboxCheckedFilled></CheckboxCheckedFilled></NIcon>
-            { `全选 ${ props.total } 条数据` }
-          </NFlex>,
-        },
-        {
-          key: 2,
-          label: () => <NFlex align="center" size={ 2 }>
-            <NIcon size={ 18 }><Checkbox></Checkbox></NIcon>
-            { `全部取消` }
-          </NFlex>,
-          props: { style: { color: themeVars.value.errorColor } },
-        },
-      ]
-      title = () => <NFlex justify="center" size={ 2 }>
-        <QnIcon icon="chevron-down" style="visibility: hidden"></QnIcon>
-        <NCheckbox indeterminate></NCheckbox>
-        <NDropdown options={ titleOptions }>
-          <QnIcon icon="chevron-down"></QnIcon>
-        </NDropdown>
-      </NFlex>
-      const render = () => <NCheckbox></NCheckbox>
-      e = { ...e, width, title, align, titleAlign, render }
+      title = () => {
+        // 勾选列的下拉菜单
+        const titleOptions = [
+          {
+            key: 1,
+            label: () => <NFlex align="center" size={ 2 }>
+              <NIcon size={ 18 }><CheckboxCheckedFilled></CheckboxCheckedFilled></NIcon>
+              { `全选 ${ props.total } 条数据` }
+            </NFlex>,
+          },
+          {
+            key: 2,
+            label: () => <NFlex align="center" size={ 2 }>
+              <NIcon size={ 18 }><Checkbox></Checkbox></NIcon>
+              { `全部取消` }
+            </NFlex>,
+            props: { style: { color: themeVars.value.errorColor } },
+          },
+        ]
+        const checked = props.selections.length > 0 &&
+            props.data
+                .filter(e => !disabled(e))
+                .every(e => props.selections.some(o => props.rowKey(e) === props.rowKey(o)))
+        const indeterminate = props.selections.length > 0 && !checked
+
+        return <NFlex justify="center" size={ 2 } wrap={ false }>
+          <QnIcon icon="chevron-down" style="visibility: hidden"></QnIcon>
+          <NCheckbox checked={ checked }
+                     indeterminate={ indeterminate }
+                     onUpdateChecked={ checked => onChecked(checked, props.data.filter(e => !disabled(e))) }
+          ></NCheckbox>
+          <NDropdown options={ titleOptions }>
+            <QnIcon icon="chevron-down"></QnIcon>
+          </NDropdown>
+        </NFlex>
+      }
+      render = row =>
+          <NCheckbox checked={ props.selections.some(e => props.rowKey(e) === props.rowKey(row)) }
+                     onUpdateChecked={ e => onChecked(e, [ row ].filter(e => !disabled(e))) }
+                     disabled={ disabled(row) }
+          ></NCheckbox>
+      column = { ...column, width, title, align, titleAlign, render }
     } else { // 普通的表头，传递所有属性
       if (props.sortKey === key)
         sortOrder = props.sortOrder
-      e = { ...e, key, width, align, sorter, sortOrder, type }
+      column = { ...column, key, width, align, sorter, sortOrder, type }
     }
-    return e
+    return column
   })
 }
 
-// const scrollX = NumberUtils.summation(mapColumns(props.columns).map(e => e.width))
+const scrollX = NumberUtils.summation(columns0.value.map(e => e.width))
 
 const updateSorter = ({ columnKey: sortKey, order: sortOrder }) => {
   emits('update:sort-order', sortOrder === false ? null : sortOrder) // false转换为null方便后台判断
@@ -120,39 +162,83 @@ const updateSorter = ({ columnKey: sortKey, order: sortOrder }) => {
   emits('update:sort')
 }
 
+// 监听最大页数是否超出，超出则返回第一页
+watch(() => {
+  const { pageNum = 1, pageSize = 20, total = 0 } = props
+  return pageNum > Math.ceil(total / pageSize)
+}, overflow => {
+  if (overflow) {
+    emits('update:page-num', 1)
+    emits('update:page')
+  }
+})
+
+const summary0 = () => {
+  const o: any = {}
+  Object.entries(props.summary || {}).forEach(([ key, value ]) => {
+    if (typeof value === 'function')
+      o[key] = { value: value() }
+    else
+      o[key] = { value: () => <div style={ { color: themeVars.value.errorColor } }>{ value }</div> }
+  })
+  return o
+}
+
 const emits = defineEmits([
+  'update:page-num',
+  'update:page-size',
+  'update:page',
   'update:sort-order',
   'update:sort-key',
   'update:sort',
+  'update:selections',
+  // 'check-all',
+  // 'check-whole',
+  // 'uncheck-whole',
 ])
 </script>
 <template>
-  <pre>
-  {{ JSON.stringify(mapColumns(columns), null, 4) }}
-  </pre>
+  <!--  <pre>-->
+  <!--  {{ JSON.stringify(mapColumns(columns), null, 4) }}-->
+  <!--  </pre>-->
   <n-data-table :data="data"
-                :columns="mapColumns(columns)"
+                :columns="columns0"
                 :loading="loading"
                 :single-column="false"
                 :single-line="false"
                 size="small"
                 remote
+                :row-class-name="row => activeRow(row) ? 'active-row' : void 0"
+                :scroll-x="scrollX"
+                :summary="summary ? summary0 : void 0"
+                summary-placement="top"
                 @update:sorter="updateSorter"
   ></n-data-table>
-  <n-layout-footer v-bind="paginationProps" position="absolute">
-    <n-pagination :page="pageNum"
-                  :page-size="pageSize"
+  <n-layout-footer v-bind="paginationProps">
+    <n-pagination :page="pageNum || 1"
+                  :page-size="pageSize || 20"
                   :item-count="total"
                   :disabled="loading"
                   show-size-picker
                   show-quick-jumper
                   :page-sizes="[ 20, 50, 100 ]"
                   :display-order="[ 'size-picker', 'quick-jumper', 'pages' ]"
+                  @update:page="emits('update:page-num', $event); emits('update:page')"
+                  @update:page-size="emits('update:page-size', $event); emits('update:page')"
     >
       <template #prefix>
         <template v-if="loading">加载中...</template>
-        <template v-else>共{{ total }}条数据</template>
+        <template v-else>共 {{ total }} 条数据</template>
       </template>
     </n-pagination>
   </n-layout-footer>
 </template>
+<style scoped>
+:deep(.n-pagination-prefix) {
+  margin-right: auto;
+}
+
+:deep(.n-data-table-tr.active-row .n-data-table-td) {
+  background-color: aliceblue !important;
+}
+</style>
