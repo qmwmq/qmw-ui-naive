@@ -1,5 +1,20 @@
 <script setup lang="tsx">
-import { type DataTableColumn, NCheckbox, NDataTable, NFlex, NLayoutFooter, NPagination, NDropdown } from 'naive-ui'
+import {
+  type DataTableColumn,
+  NCheckbox,
+  NDataTable,
+  NDropdown,
+  NFlex,
+  NIcon,
+  NLayoutFooter,
+  NPagination,
+  useThemeVars
+} from 'naive-ui'
+import QnIcon from './QnIcon.vue'
+import { Checkbox, CheckboxCheckedFilled } from '@vicons/carbon'
+import { computed } from 'vue'
+
+const themeVars = useThemeVars()
 
 export interface DataTableProps {
   columns?: DataTableColumn[]
@@ -29,6 +44,20 @@ const props = withDefaults(defineProps<DataTableProps>(), {
   total: 0,
 })
 
+const paginationProps = computed(() => {
+  if (props.paginationPlacement === 'fixed-bottom') {
+    return {
+      position: 'absolute',
+      style: { padding: '8px 16px', zIndex: 1 },
+      bordered: true,
+    }
+  } else {
+    return {
+      style: { paddingTop: '8px', backgroundColor: themeVars.value.bodyColor },
+    }
+  }
+})
+
 const mapColumns = (columns: any[]) => {
   return columns.map(({
                         key,
@@ -43,15 +72,38 @@ const mapColumns = (columns: any[]) => {
                         children = void 0,
                       }): any => {
     let e = { title, titleAlign }
-    if (children) {
+    if (children) { // 有children则继续渲染children，当前级别的表头不需要继续渲染，因为有些属性不需要生效
       e.children = mapColumns(children)
-    } else if (type === 'selection') {
+    } else if (type === 'selection') { // 是勾选列则单独渲染，同样有些属性不需要生效
       width = 50
       align = 'center'
-      title = () => <NCheckbox></NCheckbox>
+      const titleOptions = [
+        {
+          key: 1,
+          label: () => <NFlex align="center" size={ 2 }>
+            <NIcon size={ 18 }><CheckboxCheckedFilled></CheckboxCheckedFilled></NIcon>
+            { `全选 ${ props.total } 条数据` }
+          </NFlex>,
+        },
+        {
+          key: 2,
+          label: () => <NFlex align="center" size={ 2 }>
+            <NIcon size={ 18 }><Checkbox></Checkbox></NIcon>
+            { `全部取消` }
+          </NFlex>,
+          props: { style: { color: themeVars.value.errorColor } },
+        },
+      ]
+      title = () => <NFlex justify="center" size={ 2 }>
+        <QnIcon icon="chevron-down" style="visibility: hidden"></QnIcon>
+        <NCheckbox indeterminate></NCheckbox>
+        <NDropdown options={ titleOptions }>
+          <QnIcon icon="chevron-down"></QnIcon>
+        </NDropdown>
+      </NFlex>
       const render = () => <NCheckbox></NCheckbox>
       e = { ...e, width, title, align, titleAlign, render }
-    } else {
+    } else { // 普通的表头，传递所有属性
       if (props.sortKey === key)
         sortOrder = props.sortOrder
       e = { ...e, key, width, align, sorter, sortOrder, type }
@@ -87,7 +139,7 @@ const emits = defineEmits([
                 remote
                 @update:sorter="updateSorter"
   ></n-data-table>
-  <n-layout-footer>
+  <n-layout-footer v-bind="paginationProps" position="absolute">
     <n-pagination :page="pageNum"
                   :page-size="pageSize"
                   :item-count="total"

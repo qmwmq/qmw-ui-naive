@@ -10,6 +10,8 @@ import {
   Checkmark,
   CheckmarkFilled,
   CheckmarkOutline,
+  ChevronDown,
+  ChevronUp,
   Close,
   CloseFilled,
   CloseOutline,
@@ -33,17 +35,20 @@ import {
 export type Icon =
     'add'
     | 'application'
+    | 'arrow-down'
+    | 'arrow-up'
     | 'ban'
     | 'check'
     | 'check-filled'
     | 'check-outline'
+    | 'chevron-down'
+    | 'chevron-up'
     | 'close'
     | 'close-filled'
     | 'close-outline'
     | 'copy'
     | 'delete'
     | 'dot'
-    | 'down'
     | 'download'
     | 'edit'
     | 'info'
@@ -53,7 +58,6 @@ export type Icon =
     | 'reset'
     | 'search'
     | 'setup'
-    | 'up'
     | 'upload'
     | 'user'
 
@@ -71,17 +75,20 @@ const icon0 = computed(() => {
   return {
     'add': Add,
     'application': Application,
+    'arrow-down': ArrowDown,
+    'arrow-up': ArrowUp,
     'ban': Error,
     'check': Checkmark,
     'check-filled': CheckmarkFilled,
     'check-outline': CheckmarkOutline,
+    'chevron-down': ChevronDown,
+    'chevron-up': ChevronUp,
     'close': Close,
     'close-filled': CloseFilled,
     'close-outline': CloseOutline,
     'copy': Copy,
     'delete': Delete,
     'dot': DotMark,
-    'down': ArrowDown,
     'download': Download,
     'edit': Edit,
     'info': Information,
@@ -91,7 +98,6 @@ const icon0 = computed(() => {
     'reset': Renew,
     'search': Search,
     'setup': Settings,
-    'up': ArrowUp,
     'upload': Upload,
     'user': User,
   }[props.icon]

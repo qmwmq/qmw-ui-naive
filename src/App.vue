@@ -1,15 +1,19 @@
 <template>
   <qn-config-provider theme="light">
-    <qn-data-table :data="records"
-                   :columns="columns"
-                   v-model:sort-key="key"
-                   v-model:sort-order="order"
-                   sort-key="id"
-                   sort-order="descend"
-    ></qn-data-table>
+    <n-layout-content position="absolute">
+      <qn-data-table :data="records"
+                     :columns="columns"
+                     v-model:sort-key="key"
+                     v-model:sort-order="order"
+                     sort-key="id"
+                     sort-order="descend"
+                     pagination-placement="fixed-bottom"
+      ></qn-data-table>
+    </n-layout-content>
   </qn-config-provider>
 </template>
 <script setup lang="ts">
+import { NLayoutContent } from 'naive-ui'
 import { QnConfigProvider, QnDataTable } from '../lib'
 import { ref } from 'vue'
 
@@ -17,11 +21,11 @@ const key = ref('id')
 const order = ref('descend')
 
 const columns = [
-  { key: 'selection', title: 'ID', sorter: true, align: 'center', type:'selection' },
+  { key: 'selection', title: 'ID', sorter: true, align: 'center', type: 'selection' },
 
-      { key: 'id', title: 'ID', sorter: true, align: 'center' },
-      { key: 'user_id', title: 'ID', sorter: true },
-      { key: 'amount', title: 'ID', sorter: true, width:200 },
+  { key: 'id', title: 'ID', sorter: true, align: 'center' },
+  { key: 'user_id', title: 'ID', sorter: true },
+  { key: 'amount', title: 'ID', sorter: true, width: 200 },
 ]
 
 const records = [
