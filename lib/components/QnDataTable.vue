@@ -12,6 +12,7 @@ export interface TableColumn {
   title?: string | (() => VNodeChild)
   align?: 'left' | 'right' | 'center'
   titleAlign?: 'left' | 'right' | 'center'
+  fixed?: 'left' | 'right'
   width?: number
   render?: (e) => VNodeChild
   sorter?: boolean
@@ -88,15 +89,16 @@ const mapColumns = (columns: TableColumn[]) => {
                         title = '',
                         width = 100,
                         align = 'left',
+                        fixed,
                         titleAlign = 'center',
                         render,
                         sorter = false,
                         sortOrder = null,
-                        type = null,
+                        type,
                         disabled = () => false,
-                        children = void 0,
+                        children,
                       }: TableColumn): any => {
-    let column: TableColumn = { title, titleAlign, render }
+    let column: TableColumn = { title, titleAlign, fixed }
     if (children) { // 有children则继续渲染children，当前级别的表头不需要继续渲染，因为有些属性不需要生效
       column.children = mapColumns(children)
       column.width = NumberUtils.summation(column.children.map(e => e.width)) // 因为需要计算scrollX，所以需要将children的width读取出来
@@ -148,7 +150,7 @@ const mapColumns = (columns: TableColumn[]) => {
     } else { // 普通的表头，传递所有属性
       if (props.sortKey === key)
         sortOrder = props.sortOrder
-      column = { ...column, key, width, align, sorter, sortOrder, type }
+      column = { ...column, key, width, align, sorter, sortOrder, type, render }
     }
     return column
   })
