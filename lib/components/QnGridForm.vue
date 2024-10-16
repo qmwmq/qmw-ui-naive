@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { NForm, NGrid } from 'naive-ui'
 withDefaults(defineProps<{ cols: number, XGap: number }>(), {
   cols: 4,
   XGap: 16,

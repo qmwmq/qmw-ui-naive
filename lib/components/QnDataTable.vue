@@ -16,7 +16,7 @@ export interface TableColumn {
   width?: number
   render?: (e) => VNodeChild
   sorter?: boolean
-  sortOrder?: 'ascend' | 'descend' | null
+  sortOrder?: 'ascend' | 'descend' | false
   type?: 'selection' | null
   disabled?: (e) => boolean
   children?: TableColumn[]
@@ -31,7 +31,7 @@ export interface DataTableProps {
   pageSize?: number
   paginationPlacement?: 'top' | 'bottom' | 'fixed-bottom'
   selections?: any[]
-  sortOrder?: 'ascend' | 'descend' | null
+  sortOrder?: 'ascend' | 'descend' | false
   sortKey?: string | null
   summary?: Object
   rowKey?: Function
@@ -47,7 +47,7 @@ const props = withDefaults(defineProps<DataTableProps>(), {
   pageSize: 20,
   paginationPlacement: 'bottom',
   selections: () => [],
-  sortOrder: null,
+  sortOrder: false,
   sortKey: null,
   rowKey: (row: any) => row.id,
   total: 0,
@@ -93,7 +93,7 @@ const mapColumns = (columns: TableColumn[]) => {
                         titleAlign = 'center',
                         render,
                         sorter = false,
-                        sortOrder = null,
+                        sortOrder = false,
                         type,
                         disabled = () => false,
                         children,
@@ -181,9 +181,27 @@ const summary0 = () => {
     if (typeof value === 'function')
       o[key] = { value: value() }
     else
-      o[key] = { value: () => <div style={ { color: themeVars.value.errorColor } }>{ value }</div> }
+      o[key] = {
+        value: (() => <div style={
+          { color: themeVars.value.errorColor }
+        }>{ value }</div>)()
+      }
   })
   return o
+}
+
+const rowProps = row => {
+  if (props.activeRow(row))
+    return {
+      style: {
+        background: themeVars.value.railColor
+      }
+    }
+  return {
+    style: {
+      background: themeVars.value.tableHeaderColor
+    }
+  }
 }
 
 const emits = defineEmits([
@@ -210,7 +228,7 @@ const emits = defineEmits([
                 :single-line="false"
                 size="small"
                 remote
-                :row-class-name="row => activeRow(row) ? 'active-row' : void 0"
+                :row-props="rowProps"
                 :scroll-x="scrollX"
                 :summary="summary ? summary0 : void 0"
                 summary-placement="top"

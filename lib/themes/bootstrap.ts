@@ -1,6 +1,8 @@
+import type { GlobalThemeOverrides } from 'naive-ui'
+
 const borderColor = '#ddd'
 
-export const common = {
+export const common: GlobalThemeOverrides = {
   common: {
     // primary
     primaryColor: '#2196F3',
@@ -46,13 +48,13 @@ export const common = {
   },
 }
 
-export const dark = {
+export const dark: GlobalThemeOverrides = {
   Layout: {
     colorEmbedded: '#000',
   },
 }
 
-export const light = {
+export const light: GlobalThemeOverrides = {
   Layout: {
     colorEmbedded: '#f5f5f5'
     // headerBorderColor: borderColor,

@@ -1,26 +1,30 @@
 <template>
-  <qn-config-provider theme="light">
-    <n-layout-content position="absolute">
-      <qn-data-table :data="records"
-                     :columns="columns"
-                     v-model:sort-key="key"
-                     v-model:sort-order="order"
-                     sort-key="id"
-                     sort-order="descend"
-                     pagination-placement="fixed-bottom"
-                     v-model:selections="selections"
-      ></qn-data-table>
-    </n-layout-content>
+  <qn-config-provider theme="os">
+    <n-theme-editor>
+      <n-layout-content position="absolute">
+        <qn-data-table :data="records"
+                       :columns="columns"
+                       :summary="{ id: 123 }"
+                       :active-row="e => e.id % 3 === 0"
+                       v-model:sort-key="key"
+                       v-model:sort-order="order"
+                       sort-key="id"
+                       sort-order="descend"
+                       pagination-placement="fixed-bottom"
+                       v-model:selections="selections"
+        ></qn-data-table>
+      </n-layout-content>
+    </n-theme-editor>
   </qn-config-provider>
 </template>
 <script setup lang="ts">
-import { NLayoutContent } from 'naive-ui'
+import { NLayoutContent, NThemeEditor } from 'naive-ui'
 import { QnConfigProvider, QnDataTable } from '../lib'
 import { ref } from 'vue'
 
 const key = ref('id')
 const order = ref('descend')
-const selections = ref([{id:844353}])
+const selections = ref([ { id: 844353 } ])
 
 const columns = [
   {
