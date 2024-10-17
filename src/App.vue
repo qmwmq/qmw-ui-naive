@@ -1,6 +1,17 @@
 <template>
   <qn-config-provider theme="os">
     <n-theme-editor>
+
+      <qn-modal :visible="true" loading>
+        <template #header>header</template>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <template #footer>footer</template>
+        <template #action>action</template>
+      </qn-modal>
+
       <n-layout-content position="absolute">
         <qn-data-table :data="records"
                        :columns="columns"
@@ -21,6 +32,7 @@
 import { NLayoutContent, NThemeEditor } from 'naive-ui'
 import { QnConfigProvider, QnDataTable } from '../lib'
 import { ref } from 'vue'
+import QnModal from '../lib/components/QnModal.vue'
 
 const key = ref('id')
 const order = ref('descend')

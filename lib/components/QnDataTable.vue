@@ -14,7 +14,7 @@ export interface TableColumn {
   titleAlign?: 'left' | 'right' | 'center'
   fixed?: 'left' | 'right'
   width?: number
-  render?: (e) => VNodeChild
+  render?: (row, index) => VNodeChild
   sorter?: boolean
   sortOrder?: 'ascend' | 'descend' | false
   type?: 'selection' | null

@@ -17,7 +17,8 @@
     "skipLibCheck": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tsbuildinfo",
     "jsx": "preserve",
-    "jsxImportSource": "vue"
+    "jsxImportSource": "vue",
+    "isolatedModules": true
   },
   "include": [
     "lib/**/*.ts",
