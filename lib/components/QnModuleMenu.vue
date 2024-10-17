@@ -1,9 +1,11 @@
 <script setup lang="tsx">
 import { type MenuOption, NLayoutSider, NMenu } from 'naive-ui'
-import { computed, ref, type VNodeChild } from 'vue'
+import { computed, ref, type VNodeChild, watch } from 'vue'
 import type { Icon } from './QnIcon.vue'
 import QnIcon from './QnIcon.vue'
 import { ArrayUtils } from 'qmwts'
+
+const emits = defineEmits([ 'update:module-id', 'update:menu-id' ])
 
 export interface Option {
   id: number | string
@@ -23,6 +25,18 @@ const props = withDefaults(defineProps<{
   menuId: '',
   options: () => [],
 })
+
+// menuId发生变化时修改moduleId
+watch(() => props.menuId, menuId => {
+  let menu = void 0
+  let moduleId = menuId
+  do {
+    let menu = props.options.find(e => e.id === moduleId)
+    if (menu && menu.parentId)
+      moduleId = menu.parentId
+  } while (menu)
+  emits('update:module-id', moduleId)
+}, { immediate: true })
 
 const leftOptions = computed((): MenuOption[] =>
     props.options.filter(e => !e.parentId).map(e => {
@@ -65,7 +79,6 @@ defineSlots<{
   'left-header'(): any
   'right-header'(props: { module: MenuOption }): any
 }>()
-defineEmits([ 'update:module-id', 'update:menu-id' ])
 </script>
 <template>
   <!-- 左侧模块 -->

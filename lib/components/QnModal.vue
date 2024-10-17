@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { NCard, NFlex, NModal, NSkeleton, NSpin } from 'naive-ui'
 
+defineEmits([ 'update:visible' ])
+
 withDefaults(defineProps<{
   visible: boolean
   loading?: boolean
@@ -12,7 +14,6 @@ withDefaults(defineProps<{
   width: 512
 })
 
-defineEmits([ 'update:visible' ])
 </script>
 <template>
   <n-modal :show="visible"

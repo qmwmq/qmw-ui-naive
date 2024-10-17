@@ -5,17 +5,17 @@ import type { DropdownMixedOption } from 'naive-ui/lib/dropdown/src/interface'
 import QnIcon from './QnIcon.vue'
 import QnContextMenu from './QnContextMenu.vue'
 
+const emits = defineEmits([ 'update:value', 'close', 'close-other', 'close-all' ])
+
 export interface Tab {
   key: number,
   label: string | number,
 }
 
-export interface TabsProps {
+const props = withDefaults(defineProps<{
   value?: number,
   tabs: Tab[],
-}
-
-const props = withDefaults(defineProps<TabsProps>(), {
+}>(), {
   tabs: () => []
 })
 
@@ -90,8 +90,6 @@ const select = (key: string | number, option: DropdownMixedOption, params: any) 
       break;
   }
 }
-
-const emits = defineEmits([ 'update:value', 'close', 'close-other', 'close-all' ])
 </script>
 <template>
 

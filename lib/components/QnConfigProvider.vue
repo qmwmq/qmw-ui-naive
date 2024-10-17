@@ -12,23 +12,13 @@ const props = withDefaults(defineProps<ConfigProviderProps>(), {
   theme: 'light'
 })
 
-// export const theme0 = ref(null)
+// 用computed会报warning，这里用watch
 watch(() => props.theme, e => {
   if (e === 'os')
     theme0.value = useOsTheme().value
   else
     theme0.value = e
 }, { immediate: true })
-
-// 用computed会报一个warning
-// const theme0 = computed(() => {
-//   if (props.theme === 'os') {
-//     const theme = useOsTheme()
-//     return theme.value
-//   } else {
-//     return props.theme
-//   }
-// })
 
 const overrides = computed(() => {
   return {

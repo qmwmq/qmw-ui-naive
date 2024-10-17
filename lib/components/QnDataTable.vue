@@ -5,6 +5,19 @@ import { Checkbox, CheckboxCheckedFilled } from '@vicons/carbon'
 import { computed, nextTick, onMounted, ref, type VNodeChild, watch } from 'vue'
 import { NumberUtils } from 'qmwts'
 
+const emits = defineEmits([
+  'update:page-num',
+  'update:page-size',
+  'update:page',
+  'update:sort-order',
+  'update:sort-key',
+  'update:sort',
+  'update:selections',
+  // 'check-all',
+  // 'check-whole',
+  // 'uncheck-whole',
+])
+
 const themeVars = useThemeVars()
 const footerRef = ref()
 const footerHeight = ref(0)
@@ -211,19 +224,6 @@ const rowProps = row => {
     }
   }
 }
-
-const emits = defineEmits([
-  'update:page-num',
-  'update:page-size',
-  'update:page',
-  'update:sort-order',
-  'update:sort-key',
-  'update:sort',
-  'update:selections',
-  // 'check-all',
-  // 'check-whole',
-  // 'uncheck-whole',
-])
 </script>
 <template>
   <n-data-table :data="data"

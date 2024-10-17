@@ -3,6 +3,8 @@ import { NDropdown } from 'naive-ui'
 import { nextTick, ref } from 'vue'
 import type { DropdownMixedOption } from 'naive-ui/lib/dropdown/src/interface'
 
+const emits = defineEmits([ 'select' ])
+
 withDefaults(defineProps<{ options: DropdownMixedOption[] }>(), {
   options: () => [],
 })
@@ -29,7 +31,6 @@ const select = (key: string | number, option: DropdownMixedOption) => {
   emits('select', key, option, params.value)
 }
 
-const emits = defineEmits([ 'select' ])
 defineExpose({ show })
 </script>
 <template>
