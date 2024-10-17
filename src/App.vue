@@ -2,7 +2,7 @@
   <qn-config-provider theme="os">
     <n-theme-editor>
 
-      <qn-modal :visible="true" loading>
+      <qn-modal :visible="false" loading>
         <template #header>header</template>
         <div>123</div>
         <div>123</div>

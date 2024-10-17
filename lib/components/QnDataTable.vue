@@ -2,10 +2,18 @@
 import { NCheckbox, NDataTable, NDropdown, NFlex, NIcon, NLayoutFooter, NPagination, useThemeVars } from 'naive-ui'
 import QnIcon from './QnIcon.vue'
 import { Checkbox, CheckboxCheckedFilled } from '@vicons/carbon'
-import { computed, type VNodeChild, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, type VNodeChild, watch } from 'vue'
 import { NumberUtils } from 'qmwts'
 
 const themeVars = useThemeVars()
+const footerRef = ref()
+const footerHeight = ref(0)
+
+onMounted(() => {
+  nextTick(() => {
+    footerHeight.value = footerRef.value.$el.clientHeight + 8
+  })
+})
 
 export interface TableColumn {
   key?: string | number
@@ -218,9 +226,6 @@ const emits = defineEmits([
 ])
 </script>
 <template>
-  <!--  <pre>-->
-  <!--  {{ JSON.stringify(mapColumns(columns), null, 4) }}-->
-  <!--  </pre>-->
   <n-data-table :data="data"
                 :columns="columns0"
                 :loading="loading"
@@ -234,7 +239,7 @@ const emits = defineEmits([
                 summary-placement="top"
                 @update:sorter="updateSorter"
   ></n-data-table>
-  <n-layout-footer v-bind="paginationProps">
+  <n-layout-footer v-bind="paginationProps" ref="footerRef">
     <n-pagination :page="pageNum || 1"
                   :page-size="pageSize || 20"
                   :item-count="total"
@@ -248,10 +253,13 @@ const emits = defineEmits([
     >
       <template #prefix>
         <template v-if="loading">加载中...</template>
-        <template v-else>共 {{ total }} 条数据</template>
+        <template v-else>共 {{ total }}{{ footerHeight }} 条数据</template>
       </template>
     </n-pagination>
   </n-layout-footer>
+
+  <div v-if="props.paginationPlacement === 'fixed-bottom'" :style="{ height: `${ footerHeight }px` }"></div>
+
 </template>
 <style scoped>
 :deep(.n-pagination-prefix) {

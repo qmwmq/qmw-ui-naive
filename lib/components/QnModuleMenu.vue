@@ -16,7 +16,8 @@ export interface Option {
 const props = withDefaults(defineProps<{
   moduleId: number | string
   menuId: number | string
-  options: Option[]
+  options: Option[],
+  collapseTrigger?: 'bar' | 'arrow-circle'
 }>(), {
   moduleId: '',
   menuId: '',
@@ -89,7 +90,7 @@ defineEmits([ 'update:module-id', 'update:menu-id' ])
                   bordered
                   collapse-mode="width"
                   :collapsed-width="0"
-                  :show-trigger="'arrow-circle'"
+                  :show-trigger="collapseTrigger"
                   v-model:collapsed="collapsed"
   >
     <slot name="right-header" :module="activeModule"></slot>
