@@ -253,7 +253,7 @@ const rowProps = row => {
     >
       <template #prefix>
         <template v-if="loading">加载中...</template>
-        <template v-else>共 {{ total }}{{ footerHeight }} 条数据</template>
+        <template v-else>共 {{ total }} 条数据</template>
       </template>
     </n-pagination>
   </n-layout-footer>
