@@ -22,6 +22,7 @@ import {
   Edit,
   Error,
   Information,
+  InformationFilled,
   Layers,
   Locked,
   Logout,
@@ -30,6 +31,7 @@ import {
   Settings,
   Upload,
   User,
+  WarningFilled
 } from '@vicons/carbon'
 
 export type Icon =
@@ -52,6 +54,7 @@ export type Icon =
     | 'download'
     | 'edit'
     | 'info'
+    | 'info-filled'
     | 'layers'
     | 'locked'
     | 'logout'
@@ -60,10 +63,12 @@ export type Icon =
     | 'setup'
     | 'upload'
     | 'user'
+    | 'warning-filled'
 
 const props = withDefaults(defineProps<{
   icon?: Icon
   size?: number
+  color?: string
   depth?: Depth
 }>(), {
   size: 16,
@@ -92,6 +97,7 @@ const icon0 = computed(() => {
     'download': Download,
     'edit': Edit,
     'info': Information,
+    'info-filled': InformationFilled,
     'layers': Layers,
     'locked': Locked,
     'logout': Logout,
@@ -100,12 +106,13 @@ const icon0 = computed(() => {
     'setup': Settings,
     'upload': Upload,
     'user': User,
+    'warning-filled': WarningFilled,
   }[props.icon]
 })
 
 </script>
 <template>
-  <n-icon v-if="icon0" :size="size" :depth="depth">
+  <n-icon v-if="icon0" :size="size" :color="color" :depth="depth">
     <component :is="icon0"></component>
   </n-icon>
 </template>

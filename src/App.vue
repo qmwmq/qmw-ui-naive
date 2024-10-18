@@ -1,5 +1,5 @@
 <template>
-  <qn-config-provider theme="light">
+  <qn-config-provider theme="os">
     <n-theme-editor>
 
       <qn-modal :visible="false" loading>
@@ -40,6 +40,7 @@ import QnModal from '../lib/components/QnModal.vue'
 
 const confirm = () => {
   const o = api.$confirm({
+    type:'warning',
     content: () => <div style="color: red">确定删除？</div>,
     onClose: () => {
       console.log(123)

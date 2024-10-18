@@ -1,7 +1,12 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { common, dark, light } from './bootstrap.ts'
 
-export default {
-  currentTheme: ref<'light' | 'dark'>('light')
-}
-// const currentTheme = ref<'light' | 'dark'>('light')
-// export default { currentTheme }
+const currentTheme = ref<'light' | 'dark'>('light')
+const themeOverrides = computed(() => {
+  return {
+    ...common,
+    ...({ dark, light }[currentTheme.value])
+  }
+})
+
+export default { currentTheme, themeOverrides }
