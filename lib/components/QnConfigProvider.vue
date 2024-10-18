@@ -2,7 +2,7 @@
 import { darkTheme, dateZhCN, NConfigProvider, useOsTheme, zhCN } from 'naive-ui'
 import { common, dark, light } from '../themes/bootstrap.ts'
 import { computed, watch } from 'vue'
-import { theme0 } from '../api/discrete-api.ts'
+import { default as theme0 } from '../themes'
 
 export interface ConfigProviderProps {
   theme: 'light' | 'dark' | 'os'
@@ -15,15 +15,15 @@ const props = withDefaults(defineProps<ConfigProviderProps>(), {
 // 用computed会报warning，这里用watch
 watch(() => props.theme, e => {
   if (e === 'os')
-    theme0.value = useOsTheme().value
+    theme0.currentTheme.value = <'dark' | 'light'>useOsTheme().value
   else
-    theme0.value = e
+    theme0.currentTheme.value = e
 }, { immediate: true })
 
 const overrides = computed(() => {
   return {
     ...common,
-    ...(theme0.value === 'dark' ? dark : light)
+    ...({ dark, light }[theme0.currentTheme.value])
   }
 })
 </script>
@@ -31,7 +31,7 @@ const overrides = computed(() => {
   <n-config-provider abstract
                      :locale="zhCN"
                      :date-locale="dateZhCN"
-                     :theme="theme0 === 'dark' ? darkTheme : null"
+                     :theme="{ dark: darkTheme }[theme0.currentTheme.value]"
                      :theme-overrides="overrides"
   >
     <slot></slot>

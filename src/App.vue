@@ -1,5 +1,5 @@
 <template>
-  <qn-config-provider theme="os">
+  <qn-config-provider theme="light">
     <n-theme-editor>
 
       <qn-modal :visible="false" loading>
@@ -13,6 +13,9 @@
       </qn-modal>
 
       <n-layout-content position="absolute">
+
+        <n-button @click="confirm">confirm</n-button>
+
         <qn-data-table :data="records"
                        :columns="columns"
                        :summary="{ id: 123 }"
@@ -24,15 +27,25 @@
                        pagination-placement="fixed-bottom"
                        v-model:selections="selections"
         ></qn-data-table>
+
       </n-layout-content>
     </n-theme-editor>
   </qn-config-provider>
 </template>
-<script setup lang="ts">
-import { NLayoutContent, NThemeEditor } from 'naive-ui'
-import { QnConfigProvider, QnDataTable } from '../lib'
+<script setup lang="tsx">
+import { NButton, NLayoutContent, NThemeEditor } from 'naive-ui'
+import { api, QnConfigProvider, QnDataTable } from '../lib'
 import { ref } from 'vue'
 import QnModal from '../lib/components/QnModal.vue'
+
+const confirm = () => {
+  const o = api.$confirm({
+    content: () => <div style="color: red">确定删除？</div>,
+    onClose: () => {
+      console.log(123)
+    }
+  })
+}
 
 const key = ref('id')
 const order = ref('descend')

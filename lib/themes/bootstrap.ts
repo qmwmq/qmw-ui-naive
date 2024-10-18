@@ -40,6 +40,9 @@ export const common: GlobalThemeOverrides = {
     lineHeight: 1.5,
     // borderColor: 'black',
   },
+  Dialog: {
+    // padding: 0,
+  },
   // List: {
   //   borderColorModal: '#cacaca'
   // },

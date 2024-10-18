@@ -1,5 +1,5 @@
 import type { App } from 'vue'
-import { $dialog, $loading, $message, $notification } from './api/discrete-api.ts'
+// import { $alert, $confirm, $dialog, $loading, $message, $notification } from './api/discrete-api.tsx'
 import QnButton from './components/QnButton.vue'
 import QnConfigProvider from './components/QnConfigProvider.vue'
 import QnContextMenu from './components/QnContextMenu.vue'
@@ -10,11 +10,10 @@ import QnModuleMenu from './components/QnModuleMenu.vue'
 import QnIcon from './components/QnIcon.vue'
 import QnTabs from './components/QnTabs.vue'
 
+export { default as api } from './api'
+export { default as theme } from './themes'
+
 export {
-  $message,
-  $notification,
-  $dialog,
-  $loading,
   QnButton,
   QnConfigProvider,
   QnContextMenu,
