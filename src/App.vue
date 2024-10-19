@@ -1,16 +1,6 @@
 <template>
-  <qn-config-provider theme="os">
+  <qn-config-provider theme="light">
     <n-theme-editor>
-
-      <qn-modal :visible="false" loading>
-        <template #header>header</template>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <template #footer>footer</template>
-        <template #action>action</template>
-      </qn-modal>
 
       <n-layout-content position="absolute">
 
@@ -36,11 +26,10 @@
 import { NButton, NLayoutContent, NThemeEditor } from 'naive-ui'
 import { api, QnConfigProvider, QnDataTable } from '../lib'
 import { ref } from 'vue'
-import QnModal from '../lib/components/QnModal.vue'
 
 const confirm = () => {
   const o = api.$confirm({
-    type:'warning',
+    type: 'warning',
     content: () => <div style="color: red">确定删除？</div>,
     onClose: () => {
       console.log(123)

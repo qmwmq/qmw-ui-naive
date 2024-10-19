@@ -214,9 +214,7 @@ const summary0 = () => {
 const rowProps = row => {
   if (props.activeRow(row))
     return {
-      style: {
-        background: themeVars.value.railColor
-      }
+      class: 'active-row',
     }
   return {
     style: {
@@ -267,6 +265,6 @@ const rowProps = row => {
 }
 
 :deep(.n-data-table-tr.active-row .n-data-table-td) {
-  background-color: aliceblue !important;
+  background-color: v-bind(themeVars.railColor);
 }
 </style>
