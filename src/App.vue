@@ -1,5 +1,5 @@
 <template>
-  <qn-config-provider theme="light">
+  <qn-config-provider theme="os">
     <n-theme-editor>
 
       <n-layout-content position="absolute">
@@ -55,9 +55,16 @@ const columns = [
     children: [
       { key: 'id', title: 'ID', sorter: true, align: 'center' },
       { key: 'user_id', title: 'ID', sorter: true },
-      { key: 'amount', title: 'ID', sorter: true, width: 200 },
+      { key: 'amount', title: 'ID', sorter: true },
+      { key: 'amount', title: 'ID', sorter: true },
+      { key: 'amount', title: 'ID', sorter: true },
+      { key: 'amount', title: 'ID', sorter: true },
     ]
   },
+  {
+    key: 'action',
+    fixed:'right'
+  }
 ]
 
 const records = [
