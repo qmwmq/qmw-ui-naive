@@ -24,7 +24,7 @@ const footerHeight = ref(0)
 
 onMounted(() => {
   nextTick(() => {
-    footerHeight.value = footerRef.value.$el.clientHeight + 8
+    footerHeight.value = footerRef?.value.$el.clientHeight + 8
   })
 })
 
@@ -50,7 +50,7 @@ export interface DataTableProps {
   loading?: boolean
   pageNum?: number
   pageSize?: number
-  paginationPlacement?: 'top' | 'bottom' | 'fixed-bottom'
+  paginationPlacement?: 'top' | 'bottom' | 'fixed-bottom' | 'none'
   selections?: any[]
   sortOrder?: 'ascend' | 'descend' | false
   sortKey?: string | null
@@ -81,9 +81,13 @@ const paginationProps = computed(() => {
       style: { padding: '8px 16px', zIndex: 10 },
       bordered: true,
     }
+  } else if (props.paginationPlacement === 'none') {
+    return {
+      style: { display: 'none' }
+    }
   } else {
     return {
-      style: { paddingTop: '8px', backgroundColor: themeVars.value.bodyColor },
+      style: { paddingTop: '8px', backgroundColor: 'rgba(0, 0, 0, 0)' },
     }
   }
 })

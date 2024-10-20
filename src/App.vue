@@ -14,7 +14,7 @@
                        v-model:sort-order="order"
                        sort-key="id"
                        sort-order="descend"
-                       pagination-placement="fixed-bottom"
+                       pagination-placement="none"
                        v-model:selections="selections"
         ></qn-data-table>
 
