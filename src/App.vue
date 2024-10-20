@@ -1,5 +1,5 @@
 <template>
-  <qn-config-provider theme="os">
+  <qn-config-provider theme="light">
     <n-theme-editor>
 
       <n-layout-content position="absolute">

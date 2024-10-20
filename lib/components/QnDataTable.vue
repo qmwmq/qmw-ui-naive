@@ -265,6 +265,6 @@ const rowProps = row => {
 }
 
 :deep(.n-data-table-tr.active-row .n-data-table-td) {
-  background-color: v-bind(themeVars.railColor);
+  background-color: v-bind(themeVars.tagColor) !important;
 }
 </style>
