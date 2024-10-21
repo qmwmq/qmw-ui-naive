@@ -220,11 +220,12 @@ const rowProps = row => {
     return {
       class: 'active-row',
     }
-  return {
-    style: {
-      background: themeVars.value.tableHeaderColor
-    }
-  }
+  return {}
+  // return {
+  //   style: {
+  //     background: themeVars.value.tableHeaderColor
+  //   }
+  // }
 }
 </script>
 <template>
@@ -273,7 +274,15 @@ const rowProps = row => {
   margin-right: auto;
 }
 
-:deep(.n-data-table-tr.active-row .n-data-table-td) {
+:deep(.n-data-table .active-row .n-data-table-td) {
   background-color: v-bind(themeVars.tagColor) !important;
+}
+
+:deep(.n-data-table .active-row .n-data-table-td) {
+  background-color: v-bind(themeVars.tagColor) !important;
+}
+
+:deep(.n-data-table .n-data-table-td.n-data-table-td--sorting) {
+  background-color: v-bind(themeVars.tableHeaderColor)
 }
 </style>

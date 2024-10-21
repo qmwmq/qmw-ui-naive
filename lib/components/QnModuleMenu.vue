@@ -67,7 +67,7 @@ const activeModule = computed((): MenuOption =>
 
 const renderLeftLabel = (option: MenuOption): VNodeChild =>
     <NDropdown options={ rightOptions(option.key) }
-               // disabled={ !collapsed.value || rightOptions(option.key)?.length === 0 }
+               disabled={ !collapsed.value || rightOptions(option.key)?.length === 0 }
                placement="right-start"
                size="large"
                delay={ 0 }
