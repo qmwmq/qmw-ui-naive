@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { type MenuOption, NLayoutSider, NMenu } from 'naive-ui'
+import { type MenuOption, NDropdown, NLayoutSider, NMenu } from 'naive-ui'
 import { computed, ref, type VNodeChild, watch } from 'vue'
 import type { Icon } from './QnIcon.vue'
 import QnIcon from './QnIcon.vue'
@@ -38,40 +38,47 @@ watch(() => props.menuId, menuId => {
   emits('update:module-id', moduleId)
 }, { immediate: true })
 
-const leftOptions = computed((): MenuOption[] =>
-    props.options.filter(e => !e.parentId).map(e => {
-      return {
-        key: e.id,
-        label: e.name,
-        iconName: e.icon ? e.icon : 'application' // icon没法强转string，这里换个名字iconName
-      }
-    })
+const treeOptions = computed((): MenuOption[] =>
+    ArrayUtils.arrayToTree<MenuOption>(
+        props.options.map(e => {
+          return {
+            key: e.id,
+            label: e.name,
+            parentId: e.parentId,
+            iconName: e.icon
+          }
+        }),
+        'key',
+        'parentId',
+        'children'
+    )
 )
 
-const rightOptions = computed((): MenuOption[] => {
-  const option = ArrayUtils.arrayToTree<MenuOption>(
-      props.options.map(e => {
-        return {
-          key: e.id,
-          label: e.name,
-          parentId: e.parentId,
-          icon: e.icon ? () => <QnIcon icon={ e.icon as Icon }></QnIcon> : void 0
-        }
-      }), 'key', 'parentId', 'children'
-  ).find(e => e.key === props.moduleId)
-  if (option) return option.children || []
-  else return []
-})
+const leftOptions = computed((): MenuOption[] =>
+    treeOptions.value.map(e => ({ ...e, children: void 0 }))
+)
 
-const activeModule = computed((): MenuOption => {
-  return leftOptions.value.find(e => e.key === props.moduleId) || {}
-})
+const rightOptions = moduleId =>
+    treeOptions.value.find(e => e.key === moduleId)?.children || []
+
+const activeModule = computed((): MenuOption =>
+    treeOptions.value.find(e => e.key === props.moduleId) || {}
+)
 
 const renderLeftLabel = (option: MenuOption): VNodeChild =>
-    <div class="menu-content">
-      <QnIcon icon={ option.iconName as Icon } size={ 20 }></QnIcon>
-      <div>{ option.label }</div>
-    </div>
+    <NDropdown options={ rightOptions(option.key) }
+               // disabled={ !collapsed.value || rightOptions(option.key)?.length === 0 }
+               placement="right-start"
+               size="large"
+               delay={ 0 }
+               width={ 170 }
+               onSelect={ key => emits('update:menu-id', key) }
+    >
+      <div class="menu-content">
+        <QnIcon icon={ option.iconName as Icon || 'application' } size={ 20 }></QnIcon>
+        <div>{ option.label }</div>
+      </div>
+    </NDropdown>
 
 const collapsed = ref(false)
 
@@ -108,7 +115,7 @@ defineSlots<{
   >
     <slot name="right-header" :module="activeModule"></slot>
     <n-menu :value="menuId"
-            :options="rightOptions"
+            :options="rightOptions(moduleId)"
             :indent="20"
             @update:value="$emit('update:menu-id', $event)"
     ></n-menu>

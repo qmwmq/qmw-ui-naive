@@ -255,7 +255,12 @@ const rowProps = row => {
     >
       <template #prefix>
         <template v-if="loading">加载中...</template>
-        <template v-else>共 {{ total }} 条数据</template>
+        <template v-else>
+          共 {{ total }} 条数据
+          <template v-if="selections?.length > 0">
+            ，已选 {{ selections.length }}
+          </template>
+        </template>
       </template>
     </n-pagination>
   </n-layout-footer>
