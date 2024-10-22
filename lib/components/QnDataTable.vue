@@ -41,6 +41,8 @@ export interface TableColumn {
   type?: 'selection' | null
   disabled?: (e) => boolean
   children?: TableColumn[]
+  readonly resizable: boolean
+  cellProps?: Function
 }
 
 export interface DataTableProps {
@@ -121,9 +123,10 @@ const mapColumns = (columns: TableColumn[]) => {
                         sortOrder = false,
                         type,
                         disabled = () => false,
+                        resizable = true,
                         children,
                       }: TableColumn): any => {
-    let column: TableColumn = { title, titleAlign, fixed }
+    let column: TableColumn = { title, titleAlign, fixed, resizable }
     if (children) { // 有children则继续渲染children，当前级别的表头不需要继续渲染，因为有些属性不需要生效
       column.children = mapColumns(children)
       column.width = NumberUtils.summation(column.children.map(e => e.width)) // 因为需要计算scrollX，所以需要将children的width读取出来
@@ -177,6 +180,14 @@ const mapColumns = (columns: TableColumn[]) => {
         sortOrder = props.sortOrder
       column = { ...column, key, width, align, sorter, sortOrder, type, render }
     }
+    column.cellProps = row => {
+      const style = {} as any
+      if (props.activeRow(row)) // 高亮row
+        style.backgroundColor = themeVars.value.tagColor
+      else if (props.sortKey === key) // 排序row
+        style.backgroundColor = themeVars.value.tableHeaderColor
+      return { style }
+    }
     return column
   })
 }
@@ -214,19 +225,6 @@ const summary0 = () => {
   })
   return o
 }
-
-const rowProps = row => {
-  if (props.activeRow(row))
-    return {
-      class: 'active-row',
-    }
-  return {}
-  // return {
-  //   style: {
-  //     background: themeVars.value.tableHeaderColor
-  //   }
-  // }
-}
 </script>
 <template>
   <n-data-table :data="data"
@@ -236,7 +234,6 @@ const rowProps = row => {
                 :single-line="false"
                 size="small"
                 remote
-                :row-props="rowProps"
                 :scroll-x="scrollX"
                 :summary="summary ? summary0 : void 0"
                 summary-placement="top"
@@ -272,17 +269,5 @@ const rowProps = row => {
 <style scoped>
 :deep(.n-pagination-prefix) {
   margin-right: auto;
-}
-
-:deep(.n-data-table .active-row .n-data-table-td) {
-  background-color: v-bind(themeVars.tagColor) !important;
-}
-
-:deep(.n-data-table .active-row .n-data-table-td) {
-  background-color: v-bind(themeVars.tagColor) !important;
-}
-
-:deep(.n-data-table .n-data-table-td.n-data-table-td--sorting) {
-  background-color: v-bind(themeVars.tableHeaderColor)
 }
 </style>
