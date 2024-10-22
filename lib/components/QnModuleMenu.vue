@@ -65,20 +65,21 @@ const activeModule = computed((): MenuOption =>
     treeOptions.value.find(e => e.key === props.moduleId) || {}
 )
 
-const renderLeftLabel = (option: MenuOption): VNodeChild =>
-    <NDropdown options={ rightOptions(option.key) }
-               disabled={ !collapsed.value || rightOptions(option.key)?.length === 0 }
-               placement="right-start"
-               size="large"
-               delay={ 0 }
-               width={ 170 }
-               onSelect={ key => emits('update:menu-id', key) }
-    >
-      <div class="menu-content">
-        <QnIcon icon={ option.iconName as Icon || 'application' } size={ 20 }></QnIcon>
-        <div>{ option.label }</div>
-      </div>
-    </NDropdown>
+const renderLeftLabel = (option: MenuOption): VNodeChild => {
+  return <NDropdown options={ rightOptions(option.key) }
+                    disabled={ !collapsed.value || rightOptions(option.key)?.length === 0 }
+                    placement="right-start"
+                    size="large"
+                    delay={ 0 }
+                    width={ 170 }
+                    onSelect={ key => emits('update:menu-id', key) }
+  >
+    <div class="menu-content">
+      <QnIcon icon={ option.iconName as Icon || 'application' } size={ 20 }></QnIcon>
+      <div>{ option.label }</div>
+    </div>
+  </NDropdown>
+}
 
 const collapsed = ref(false)
 
