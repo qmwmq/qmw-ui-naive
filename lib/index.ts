@@ -1,6 +1,7 @@
 import type { App } from 'vue'
-// import { $alert, $confirm, $dialog, $loading, $message, $notification } from './api/discrete-api.tsx'
 import QnButton from './components/QnButton.vue'
+import QnDatePicker from './components/QnDatePicker.vue'
+import QnDateRangePicker from './components/QnDateRangePicker.vue'
 import QnConfigProvider from './components/QnConfigProvider.vue'
 import QnContextMenu from './components/QnContextMenu.vue'
 import QnDataTable from './components/QnDataTable.vue'
@@ -18,6 +19,8 @@ export {
   QnConfigProvider,
   QnContextMenu,
   QnDataTable,
+  QnDatePicker,
+  QnDateRangePicker,
   QnGridForm,
   QnModal,
   QnModuleMenu,
@@ -31,6 +34,8 @@ export default {
     app.component('QnConfigProvider', QnConfigProvider)
     app.component('QnContextMenu', QnContextMenu)
     app.component('QnDataTable', QnDataTable)
+    app.component('QnDatePicker', QnDatePicker)
+    app.component('QnDateRangePicker', QnDateRangePicker)
     app.component('QnGridForm', QnGridForm)
     app.component('QnModal', QnModal)
     app.component('QnModuleMenu', QnModuleMenu)
@@ -45,6 +50,8 @@ declare module 'vue' {
     QnConfigProvider: typeof QnConfigProvider
     QnContextMenu: typeof QnContextMenu
     QnDataTable: typeof QnDataTable
+    QnDatePicker: typeof QnDatePicker
+    QnDateRangePicker: typeof QnDateRangePicker
     QnGridForm: typeof QnGridForm
     QnModal: typeof QnModal
     QnModuleMenu: typeof QnModuleMenu

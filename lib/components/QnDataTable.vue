@@ -35,11 +35,11 @@ export interface TableColumn {
   titleAlign?: 'left' | 'right' | 'center'
   fixed?: 'left' | 'right'
   width?: number
-  render?: (row, index) => VNodeChild
+  render?: (row: any, index: number) => VNodeChild
   sorter?: boolean
   sortOrder?: 'ascend' | 'descend' | false
   type?: 'selection' | null
-  disabled?: (e) => boolean
+  disabled?: (row: any) => boolean
   children?: TableColumn[]
   readonly resizable: boolean
   cellProps?: Function
@@ -95,7 +95,7 @@ const paginationProps = computed(() => {
 })
 
 // 勾选的check方法
-const onChecked = (checked, rows) => {
+const onChecked = (checked: boolean, rows: any[]) => {
   const o = [ ...props.selections ]
   rows.forEach(row => {
     const index = o.findIndex(e => props.rowKey(e) === props.rowKey(row))
@@ -180,7 +180,7 @@ const mapColumns = (columns: TableColumn[]) => {
         sortOrder = props.sortOrder
       column = { ...column, key, width, align, sorter, sortOrder, type, render }
     }
-    column.cellProps = row => {
+    column.cellProps = (row: any) => {
       const style = {} as any
       if (props.activeRow(row)) // 高亮row
         style.backgroundColor = themeVars.value.tagColor
@@ -194,7 +194,10 @@ const mapColumns = (columns: TableColumn[]) => {
 
 const scrollX = NumberUtils.summation(columns0.value.map(e => e.width))
 
-const updateSorter = ({ columnKey: sortKey, order: sortOrder }) => {
+const updateSorter = ({ columnKey: sortKey, order: sortOrder }: {
+  columnKey: any,
+  order: 'ascend' | 'descend' | false
+}) => {
   emits('update:sort-order', sortOrder === false ? null : sortOrder) // false转换为null方便后台判断
   emits('update:sort-key', sortOrder === false ? null : sortKey) // false转换为null方便后台判断
   emits('update:sort')

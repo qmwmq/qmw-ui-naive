@@ -9,7 +9,7 @@
     ],
     "allowArbitraryExtensions": true,
     "noEmit": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "verbatimModuleSyntax": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { NDatePicker } from 'naive-ui'
 import { computed } from 'vue'
+import type { FormattedValue, Value } from 'naive-ui/lib/date-picker/src/interface'
 
 const emits = defineEmits([ 'update:value' ])
 
@@ -8,33 +9,42 @@ const props = withDefaults(defineProps<{
   value?: string | number
   disabled?: boolean
   placeholder?: string
+  useTimestamp?: boolean
+  shortcuts?: any
 }>(), {
   disabled: false,
-  placeholder: '请选择日期',
+  useTimestamp: false,
 })
 
-const bindValue = computed(() => {
-  if (typeof props.value === 'number')
-    return { value: props.value }
+const bindValue = computed((): {
+  value?: Value | null,
+  formattedValue: FormattedValue | null
+} => {
+  if (props.useTimestamp)
+    return { value: props.value as number, formattedValue: null }
   else
-    return { formattedValue: props.value }
+    return { formattedValue: props.value as string, value: null }
 })
 
-const updateValue = value => {
-  console.log(value)
-  if (typeof props.value === 'number')
-    emits('update:value', new Date(value).getTime())
+const updateValue = (value: any) => {
+  if (props.useTimestamp)
+    emits('update:value', value == null ? value : new Date(value).getTime())
   else
     emits('update:value', value)
 }
-
 </script>
 <template>
   <n-date-picker v-bind="bindValue"
                  type="date"
-                 clearable
+                 input-readonly
+                 :actions="[ 'clear', 'now' ]"
                  :disabled="disabled"
                  :placeholder="placeholder"
+                 :shortcuts="shortcuts"
                  @update:formatted-value="updateValue"
-  ></n-date-picker>
+  >
+    <template #date-icon>
+      <slot name="date-icon"></slot>
+    </template>
+  </n-date-picker>
 </template>

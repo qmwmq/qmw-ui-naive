@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { darkTheme, dateZhCN, NConfigProvider, useOsTheme, zhCN } from 'naive-ui'
+import { darkTheme, dateZhCN, lightTheme, NConfigProvider, useOsTheme, zhCN } from 'naive-ui'
 import { watch } from 'vue'
 import theme from '../themes'
 
@@ -24,7 +24,7 @@ watch(() => props.theme, e => {
   <n-config-provider abstract
                      :locale="zhCN"
                      :date-locale="dateZhCN"
-                     :theme="{ dark: darkTheme }[theme.currentTheme.value]"
+                     :theme="{ dark: darkTheme, light: lightTheme }[theme.currentTheme.value]"
                      :theme-overrides="theme.themeOverrides.value"
   >
     <slot></slot>

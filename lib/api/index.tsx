@@ -1,12 +1,12 @@
 import { computed } from 'vue'
-import { createDiscreteApi, darkTheme, type DialogOptions, NFlex } from 'naive-ui'
+import { createDiscreteApi, darkTheme, type DialogOptions, lightTheme, NFlex } from 'naive-ui'
 import QnIcon, { type Icon } from '../components/QnIcon.vue'
 import theme from '../themes'
 import { common } from '../themes/bootstrap.ts'
 
 const configProviderProps = computed(() => {
   return {
-    theme: { dark: darkTheme }[theme.currentTheme.value],
+    theme: { dark: darkTheme, light: lightTheme }[theme.currentTheme.value],
     themeOverrides: theme.themeOverrides.value
   }
 })

@@ -58,7 +58,7 @@ const leftOptions = computed((): MenuOption[] =>
     treeOptions.value.map(e => ({ ...e, children: void 0 }))
 )
 
-const rightOptions = moduleId =>
+const rightOptions = (moduleId: any) =>
     treeOptions.value.find(e => e.key === moduleId)?.children || []
 
 const activeModule = computed((): MenuOption =>

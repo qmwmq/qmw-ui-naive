@@ -6,6 +6,8 @@ import {
   Add,
   Application,
   ArrowDown,
+  ArrowLeft,
+  ArrowRight,
   ArrowUp,
   Checkmark,
   CheckmarkFilled,
@@ -38,6 +40,8 @@ export type Icon =
     'add'
     | 'application'
     | 'arrow-down'
+    | 'arrow-left'
+    | 'arrow-right'
     | 'arrow-up'
     | 'ban'
     | 'check'
@@ -81,6 +85,8 @@ const icon0 = computed(() => {
     'add': Add,
     'application': Application,
     'arrow-down': ArrowDown,
+    'arrow-left': ArrowLeft,
+    'arrow-right': ArrowRight,
     'arrow-up': ArrowUp,
     'ban': Error,
     'check': Checkmark,
