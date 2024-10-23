@@ -259,7 +259,7 @@ const summary0 = () => {
         <template v-else>
           共 {{ total }} 条数据
           <template v-if="selections?.length > 0">
-            ，已选 {{ selections.length }}
+            &nbsp;&nbsp;已选 {{ selections.length }}
           </template>
         </template>
       </template>
