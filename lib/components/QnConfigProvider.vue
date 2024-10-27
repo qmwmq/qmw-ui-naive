@@ -3,11 +3,9 @@ import { darkTheme, dateZhCN, lightTheme, NConfigProvider, useOsTheme, zhCN } fr
 import { watch } from 'vue'
 import theme from '../themes'
 
-export interface ConfigProviderProps {
-  theme: 'light' | 'dark' | 'os'
-}
-
-const props = withDefaults(defineProps<ConfigProviderProps>(), {
+const props = withDefaults(defineProps<{
+  theme?: 'light' | 'dark' | 'os'
+}>(), {
   theme: 'light'
 })
 

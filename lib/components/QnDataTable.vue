@@ -41,7 +41,7 @@ export interface TableColumn {
   type?: 'selection' | null
   disabled?: (row: any) => boolean
   children?: TableColumn[]
-  readonly resizable: boolean
+  resizable?: boolean
   cellProps?: Function
 }
 

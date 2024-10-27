@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { NSelect } from 'naive-ui'
 import type { VNodeChild } from 'vue'
 import QnLoadingSelect from './QnLoadingSelect.vue'
 
@@ -16,7 +17,6 @@ withDefaults(defineProps<{
 })
 
 defineEmits([ 'update:value' ])
-
 </script>
 <template>
   <qn-loading-select v-if="loading"></qn-loading-select>
