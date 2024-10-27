@@ -6,9 +6,11 @@ import QnConfigProvider from './components/QnConfigProvider.vue'
 import QnContextMenu from './components/QnContextMenu.vue'
 import QnDataTable from './components/QnDataTable.vue'
 import QnGridForm from './components/QnGridForm.vue'
+import QnLoadingSelect from './components/QnLoadingSelect.vue'
 import QnModal from './components/QnModal.vue'
 import QnModuleMenu from './components/QnModuleMenu.vue'
 import QnIcon from './components/QnIcon.vue'
+import QnSelect from './components/QnSelect.vue'
 import QnTabs from './components/QnTabs.vue'
 
 export { default as api } from './api'
@@ -22,9 +24,11 @@ export {
   QnDatePicker,
   QnDateRangePicker,
   QnGridForm,
+  QnLoadingSelect,
   QnModal,
   QnModuleMenu,
   QnIcon,
+  QnSelect,
   QnTabs
 }
 
@@ -37,9 +41,11 @@ export default {
     app.component('QnDatePicker', QnDatePicker)
     app.component('QnDateRangePicker', QnDateRangePicker)
     app.component('QnGridForm', QnGridForm)
+    app.component('QnLoadingSelect', QnLoadingSelect)
     app.component('QnModal', QnModal)
     app.component('QnModuleMenu', QnModuleMenu)
     app.component('QnIcon', QnIcon)
+    app.component('QnSelect', QnSelect)
     app.component('QnTabs', QnTabs)
   }
 }
@@ -53,9 +59,11 @@ declare module 'vue' {
     QnDatePicker: typeof QnDatePicker
     QnDateRangePicker: typeof QnDateRangePicker
     QnGridForm: typeof QnGridForm
+    QnLoadingSelect: typeof QnLoadingSelect
     QnModal: typeof QnModal
     QnModuleMenu: typeof QnModuleMenu
     QnIcon: typeof QnIcon
+    QnSelect: typeof QnSelect
     QnTabs: typeof QnTabs
   }
 }
