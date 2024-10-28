@@ -28,6 +28,7 @@ defineEmits([ 'update:value' ])
             :placeholder="placeholder"
             :render-label="renderLabel"
             :fallback-option="false"
+            :consistent-menu-width="false"
             clearable
             filterable
             value-field="id"

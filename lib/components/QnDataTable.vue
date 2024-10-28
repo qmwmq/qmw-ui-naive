@@ -2,8 +2,9 @@
 import { NCheckbox, NDataTable, NDropdown, NFlex, NIcon, NLayoutFooter, NPagination, useThemeVars } from 'naive-ui'
 import QnIcon from './QnIcon.vue'
 import { Checkbox, CheckboxCheckedFilled } from '@vicons/carbon'
-import { computed, nextTick, onMounted, ref, type VNodeChild, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { NumberUtils } from 'qmwts'
+import type { DataTableColumn } from '../interfaces/data-table.ts'
 
 const emits = defineEmits([
   'update:page-num',
@@ -28,26 +29,9 @@ onMounted(() => {
   })
 })
 
-export interface TableColumn {
-  key?: string | number
-  title?: string | (() => VNodeChild)
-  align?: 'left' | 'right' | 'center'
-  titleAlign?: 'left' | 'right' | 'center'
-  fixed?: 'left' | 'right'
-  width?: number
-  render?: (row: any, index: number) => VNodeChild
-  sorter?: boolean
-  sortOrder?: 'ascend' | 'descend' | false
-  type?: 'selection' | null
-  disabled?: (row: any) => boolean
-  children?: TableColumn[]
-  resizable?: boolean
-  cellProps?: Function
-}
-
 export interface DataTableProps {
   activeRow?: (row: any) => boolean
-  columns?: TableColumn[]
+  columns?: DataTableColumn[]
   data?: any[]
   loading?: boolean
   pageNum?: number
@@ -79,7 +63,7 @@ const props = withDefaults(defineProps<DataTableProps>(), {
 const paginationProps = computed(() => {
   if (props.paginationPlacement === 'fixed-bottom') {
     return {
-      position: 'absolute' as 'absolute' | 'static' | undefined,
+      position: 'absolute' as ('absolute' | 'static' | undefined),
       style: { padding: '8px 16px', zIndex: 10 },
       bordered: true,
     }
@@ -110,7 +94,7 @@ const onChecked = (checked: boolean, rows: any[]) => {
 }
 
 const columns0 = computed(() => mapColumns(props.columns))
-const mapColumns = (columns: TableColumn[]) => {
+const mapColumns = (columns: DataTableColumn[]) => {
   return columns.map(({
                         key,
                         title = '',
@@ -125,8 +109,8 @@ const mapColumns = (columns: TableColumn[]) => {
                         disabled = () => false,
                         resizable = true,
                         children,
-                      }: TableColumn): any => {
-    let column: TableColumn = { title, titleAlign, fixed, resizable }
+                      }: DataTableColumn): any => {
+    let column: DataTableColumn = { title, titleAlign, fixed, resizable }
     if (children) { // 有children则继续渲染children，当前级别的表头不需要继续渲染，因为有些属性不需要生效
       column.children = mapColumns(children)
       column.width = NumberUtils.summation(column.children.map(e => e.width)) // 因为需要计算scrollX，所以需要将children的width读取出来

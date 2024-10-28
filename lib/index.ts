@@ -16,6 +16,8 @@ import QnTabs from './components/QnTabs.vue'
 export { default as api } from './api'
 export { default as theme } from './themes'
 
+export * as DataTableTypes from './interfaces/data-table.ts'
+
 export {
   QnButton,
   QnConfigProvider,

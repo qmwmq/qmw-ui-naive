@@ -4,7 +4,7 @@ import type { Type } from 'naive-ui/lib/button/src/interface'
 import type { Icon } from './QnIcon.vue'
 import QnIcon from './QnIcon.vue'
 
-export interface ButtonProps {
+const props = withDefaults(defineProps<{
   block?: boolean
   dashed?: boolean
   disabled?: boolean
@@ -15,18 +15,7 @@ export interface ButtonProps {
   secondary?: boolean
   text?: boolean
   type?: Type
-}
-
-const props = withDefaults(defineProps<ButtonProps>(), {
-  block: false,
-  dashed: false,
-  disabled: false,
-  ghost: false,
-  icon: void 0,
-  iconSize: void 0,
-  loading: false,
-  secondary: false,
-  text: false,
+}>(), {
   type: 'primary',
 })
 </script>
