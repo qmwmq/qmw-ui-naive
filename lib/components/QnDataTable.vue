@@ -2,10 +2,25 @@
 import { NCheckbox, NDataTable, NDropdown, NFlex, NIcon, NLayoutFooter, NPagination, useThemeVars } from 'naive-ui'
 import QnIcon from './QnIcon.vue'
 import { Checkbox, CheckboxCheckedFilled } from '@vicons/carbon'
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, type VNodeChild, watch } from 'vue'
 import { NumberUtils } from 'qmwts'
-// import type { DataTableColumn } from '../interfaces/data-table.ts'
-import {DataTableTypes} from '..'
+
+export interface DataTableColumn {
+  key?: string | number
+  title?: string | (() => VNodeChild)
+  align?: 'left' | 'right' | 'center'
+  titleAlign?: 'left' | 'right' | 'center'
+  fixed?: 'left' | 'right'
+  width?: number
+  render?: (row: any, index: number) => VNodeChild
+  sorter?: boolean
+  sortOrder?: 'ascend' | 'descend' | false
+  type?: 'selection'
+  disabled?: (row: any) => boolean
+  children?: DataTableColumn[]
+  resizable?: boolean
+  cellProps?: Function
+}
 
 const emits = defineEmits([
   'update:page-num',
@@ -32,7 +47,7 @@ onMounted(() => {
 
 export interface DataTableProps {
   activeRow?: (row: any) => boolean
-  columns?: DataTableTypes.DataTableColumn[]
+  columns?: DataTableColumn[]
   data?: any[]
   loading?: boolean
   pageNum?: number
@@ -95,7 +110,7 @@ const onChecked = (checked: boolean, rows: any[]) => {
 }
 
 const columns0 = computed(() => mapColumns(props.columns))
-const mapColumns = (columns: DataTableTypes.DataTableColumn[]) => {
+const mapColumns = (columns: DataTableColumn[]) => {
   return columns.map(({
                         key,
                         title = '',
@@ -110,11 +125,11 @@ const mapColumns = (columns: DataTableTypes.DataTableColumn[]) => {
                         disabled = () => false,
                         resizable = true,
                         children,
-                      }: DataTableTypes.DataTableColumn): any => {
-    let column: DataTableTypes.DataTableColumn = { title, titleAlign, fixed, resizable }
+                      }: DataTableColumn): any => {
+    let column: DataTableColumn = { title, titleAlign, fixed, resizable }
     if (children) { // 有children则继续渲染children，当前级别的表头不需要继续渲染，因为有些属性不需要生效
       column.children = mapColumns(children)
-      column.width = NumberUtils.summation(column.children.map(e => e.width)) // 因为需要计算scrollX，所以需要将children的width读取出来
+      column.width = NumberUtils.summation(column.children.map((e: any) => e.width)) // 因为需要计算scrollX，所以需要将children的width读取出来
     } else if (type === 'selection') { // 是勾选列则单独渲染，同样有些属性不需要生效
       width = 50
       align = 'center'
@@ -154,7 +169,7 @@ const mapColumns = (columns: DataTableTypes.DataTableColumn[]) => {
           </NDropdown>
         </NFlex>
       }
-      render = row =>
+      render = (row: any) =>
           <NCheckbox checked={ props.selections.some(e => props.rowKey(e) === props.rowKey(row)) }
                      onUpdateChecked={ e => onChecked(e, [ row ].filter(e => !disabled(e))) }
                      disabled={ disabled(row) }

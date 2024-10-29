@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { NButton } from 'naive-ui'
 import type { Type } from 'naive-ui/lib/button/src/interface'
-import type { Icon } from './QnIcon.vue'
-import QnIcon from './QnIcon.vue'
+import QnIcon, { type Icon } from './QnIcon.vue'
 
 const props = withDefaults(defineProps<{
   block?: boolean

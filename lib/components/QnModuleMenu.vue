@@ -1,8 +1,7 @@
 <script setup lang="tsx">
 import { type MenuOption, NDropdown, NLayoutSider, NMenu } from 'naive-ui'
 import { computed, ref, type VNodeChild, watch } from 'vue'
-import type { Icon } from './QnIcon.vue'
-import QnIcon from './QnIcon.vue'
+import QnIcon, { type Icon } from './QnIcon.vue'
 import { ArrayUtils } from 'qmwts'
 
 const emits = defineEmits([ 'update:module-id', 'update:menu-id' ])

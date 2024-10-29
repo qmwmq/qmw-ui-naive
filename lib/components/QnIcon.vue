@@ -36,38 +36,41 @@ import {
   WarningFilled
 } from '@vicons/carbon'
 
-export type Icon =
-    'add'
-    | 'application'
-    | 'arrow-down'
-    | 'arrow-left'
-    | 'arrow-right'
-    | 'arrow-up'
-    | 'ban'
-    | 'check'
-    | 'check-filled'
-    | 'check-outline'
-    | 'chevron-down'
-    | 'chevron-up'
-    | 'close'
-    | 'close-filled'
-    | 'close-outline'
-    | 'copy'
-    | 'delete'
-    | 'dot'
-    | 'download'
-    | 'edit'
-    | 'info'
-    | 'info-filled'
-    | 'layers'
-    | 'locked'
-    | 'logout'
-    | 'reset'
-    | 'search'
-    | 'setup'
-    | 'upload'
-    | 'user'
-    | 'warning-filled'
+const IconMap = {
+  'add': Add,
+  'application': Application,
+  'arrow-down': ArrowDown,
+  'arrow-left': ArrowLeft,
+  'arrow-right': ArrowRight,
+  'arrow-up': ArrowUp,
+  'ban': Error,
+  'check': Checkmark,
+  'check-filled': CheckmarkFilled,
+  'check-outline': CheckmarkOutline,
+  'chevron-down': ChevronDown,
+  'chevron-up': ChevronUp,
+  'close': Close,
+  'close-filled': CloseFilled,
+  'close-outline': CloseOutline,
+  'copy': Copy,
+  'delete': Delete,
+  'dot': DotMark,
+  'download': Download,
+  'edit': Edit,
+  'info': Information,
+  'info-filled': InformationFilled,
+  'layers': Layers,
+  'locked': Locked,
+  'logout': Logout,
+  'reset': Renew,
+  'search': Search,
+  'setup': Settings,
+  'upload': Upload,
+  'user': User,
+  'warning-filled': WarningFilled,
+}
+
+export type Icon = keyof typeof IconMap
 
 const props = withDefaults(defineProps<{
   icon?: Icon
@@ -77,45 +80,11 @@ const props = withDefaults(defineProps<{
 }>(), {
   size: 16,
 })
-
 const icon0 = computed(() => {
   if (!props.icon)
     return null
-  return {
-    'add': Add,
-    'application': Application,
-    'arrow-down': ArrowDown,
-    'arrow-left': ArrowLeft,
-    'arrow-right': ArrowRight,
-    'arrow-up': ArrowUp,
-    'ban': Error,
-    'check': Checkmark,
-    'check-filled': CheckmarkFilled,
-    'check-outline': CheckmarkOutline,
-    'chevron-down': ChevronDown,
-    'chevron-up': ChevronUp,
-    'close': Close,
-    'close-filled': CloseFilled,
-    'close-outline': CloseOutline,
-    'copy': Copy,
-    'delete': Delete,
-    'dot': DotMark,
-    'download': Download,
-    'edit': Edit,
-    'info': Information,
-    'info-filled': InformationFilled,
-    'layers': Layers,
-    'locked': Locked,
-    'logout': Logout,
-    'reset': Renew,
-    'search': Search,
-    'setup': Settings,
-    'upload': Upload,
-    'user': User,
-    'warning-filled': WarningFilled,
-  }[props.icon]
+  return IconMap[props.icon]
 })
-
 </script>
 <template>
   <n-icon v-if="icon0" :size="size" :color="color" :depth="depth">
