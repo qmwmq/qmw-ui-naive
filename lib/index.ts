@@ -10,6 +10,7 @@ import QnLoadingSelect from './components/QnLoadingSelect.vue'
 import QnModal from './components/QnModal.vue'
 import QnModuleMenu from './components/QnModuleMenu.vue'
 import QnIcon from './components/QnIcon.vue'
+import QnInputNumber from './components/QnInputNumber.vue'
 import QnSelect from './components/QnSelect.vue'
 import QnTabs from './components/QnTabs.vue'
 
@@ -30,6 +31,7 @@ export {
   QnModal,
   QnModuleMenu,
   QnIcon,
+  QnInputNumber,
   QnSelect,
   QnTabs
 }
@@ -47,6 +49,7 @@ export default {
     app.component('QnModal', QnModal)
     app.component('QnModuleMenu', QnModuleMenu)
     app.component('QnIcon', QnIcon)
+    app.component('QnInputNumber', QnInputNumber)
     app.component('QnSelect', QnSelect)
     app.component('QnTabs', QnTabs)
   }
