@@ -56,7 +56,7 @@ export interface DataTableProps {
   selections?: any[]
   sortOrder?: 'ascend' | 'descend' | false
   sortKey?: string | null
-  summary?: Object
+  summary?: () => Object
   rowKey?: Function
   total?: number
 }
@@ -216,7 +216,9 @@ watch(() => {
 
 const summary0 = () => {
   const o: any = {}
-  Object.entries(props.summary || {}).forEach(([ key, value ]) => {
+  if (!props.summary)
+    return o
+  Object.entries(props.summary() || {}).forEach(([ key, value ]) => {
     if (typeof value === 'function')
       o[key] = { value: value() }
     else
