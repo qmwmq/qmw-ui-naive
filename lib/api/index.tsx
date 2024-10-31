@@ -44,7 +44,7 @@ const $confirm = (options: DialogOptions) => {
             { typeof options.content === 'function' ? options.content() : options.content }
           </div>
         </NFlex>,
-    type: options.type,
+    type: options.type || 'warning',
     contentStyle: { fontSize: '16px' },
     showIcon: false,
     positiveText: '确 定',
