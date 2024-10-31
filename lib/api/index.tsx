@@ -21,8 +21,7 @@ const {
     { configProviderProps }
 )
 
-const $confirm = (options: DialogOptions) => {
-
+const dialog = (options: DialogOptions) => {
   const icon = {
     success: 'check-filled',
     warning: 'warning-filled',
@@ -44,18 +43,26 @@ const $confirm = (options: DialogOptions) => {
             { typeof options.content === 'function' ? options.content() : options.content }
           </div>
         </NFlex>,
-    type: options.type || 'warning',
+    type: options.type,
     contentStyle: { fontSize: '16px' },
     showIcon: false,
-    positiveText: '确 定',
-    negativeText: '取 消',
+    positiveText: options.positiveText,
+    negativeText: options.negativeText,
     positiveButtonProps: { type: 'primary', size: 'medium' },
     negativeButtonProps: { type: 'primary', size: 'medium' },
     onPositiveClick: options.onPositiveClick,
   })
 }
 
-const $alert = () => {
+const $confirm = (options: DialogOptions) => {
+  options.positiveText = options.positiveText || '确 定'
+  options.negativeText = options.negativeText || '取 消'
+  return dialog(options)
+}
+
+const $alert = (options: DialogOptions) => {
+  options.positiveText = options.positiveText || '确 定'
+  return dialog(options)
 }
 
 export default { $message, $notification, $dialog, $loading, $confirm, $alert }

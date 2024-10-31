@@ -30,9 +30,9 @@ const emits = defineEmits([
   'update:sort-key',
   'update:sort',
   'update:selections',
-  // 'check-all',
-  // 'check-whole',
-  // 'uncheck-whole',
+  'check-all',
+  'check-page',
+  'uncheck-all',
 ])
 
 const themeVars = useThemeVars()
@@ -162,9 +162,21 @@ const mapColumns = (columns: DataTableColumn[]) => {
           <QnIcon icon="chevron-down" style="visibility: hidden"></QnIcon>
           <NCheckbox checked={ checked }
                      indeterminate={ indeterminate }
-                     onUpdateChecked={ checked => onChecked(checked, props.data.filter(e => !disabled(e))) }
+                     onUpdateChecked={ checked => {
+                       onChecked(checked, props.data.filter(e => !disabled(e)))
+                       emits('check-page', checked)
+                     } }
           ></NCheckbox>
-          <NDropdown options={ titleOptions }>
+          <NDropdown options={ titleOptions }
+                     onSelect={ key => {
+                       if (key === 1) {
+                         emits('check-all')
+                       } else if (key === 2) {
+                         emits('update:selections', [])
+                         emits('uncheck-all')
+                       }
+                     } }
+          >
             <QnIcon icon="chevron-down"></QnIcon>
           </NDropdown>
         </NFlex>
