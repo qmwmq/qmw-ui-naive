@@ -7,21 +7,19 @@ import { ArrayUtils } from 'qmwts'
 const emits = defineEmits([ 'update:module-id', 'update:menu-id' ])
 
 export interface Option {
-  id: number | string
-  parentId: number | string
-  name: string
-  icon: string
-  path: string
+  id?: number | string
+  parentId?: number | string
+  name?: string
+  icon?: string
+  path?: string
 }
 
 const props = withDefaults(defineProps<{
-  moduleId: number | string
-  menuId: number | string
-  options: Option[],
+  moduleId?: number | string
+  menuId?: number | string
+  options?: Option[],
   collapseTrigger?: 'bar' | 'arrow-circle'
 }>(), {
-  moduleId: '',
-  menuId: '',
   options: () => [],
 })
 
