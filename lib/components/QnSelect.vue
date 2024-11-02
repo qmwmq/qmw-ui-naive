@@ -11,7 +11,7 @@ withDefaults(defineProps<{
   disabled?: boolean
   maxTagCount?: number | 'responsive'
   placeholder?: string
-  renderLabel?: () => VNodeChild
+  renderLabel?: (option: any, selected: boolean) => VNodeChild
 }>(), {
   maxTagCount: 'responsive'
 })
@@ -34,5 +34,12 @@ defineEmits([ 'update:value' ])
             value-field="id"
             label-field="name"
             @update:value="$emit('update:value', $event)"
-  ></n-select>
+  >
+    <template #header>
+      <slot name="header"></slot>
+    </template>
+    <template #action>
+      <slot name="footer"></slot>
+    </template>
+  </n-select>
 </template>
