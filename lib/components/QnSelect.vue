@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NSelect } from 'naive-ui'
-import type { VNodeChild } from 'vue'
+import type { HTMLAttributes, VNodeChild } from 'vue'
 import QnLoadingSelect from './QnLoadingSelect.vue'
 
 withDefaults(defineProps<{
@@ -12,6 +12,7 @@ withDefaults(defineProps<{
   maxTagCount?: number | 'responsive'
   placeholder?: string
   renderLabel?: (option: any, selected: boolean) => VNodeChild
+  nodeProps?: (option: any) => HTMLAttributes & Record<string, unknown>
 }>(), {
   maxTagCount: 'responsive'
 })
@@ -29,6 +30,7 @@ defineEmits([ 'update:value' ])
             :render-label="renderLabel"
             :fallback-option="false"
             :consistent-menu-width="false"
+            :node-props="nodeProps"
             clearable
             filterable
             value-field="id"

@@ -14,7 +14,7 @@ const params = ref({})
 const x = ref(0)
 const y = ref(0)
 
-const show = (e: MouseEvent, params0: Object = {}) => {
+const show = (e: MouseEvent, params0: object = {}) => {
   e.preventDefault()
   e.stopPropagation()
   visible.value = false

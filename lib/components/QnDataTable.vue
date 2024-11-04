@@ -56,7 +56,7 @@ export interface DataTableProps {
   selections?: any[]
   sortOrder?: 'ascend' | 'descend' | false
   sortKey?: string | null
-  summary?: () => Object
+  summary?: () => object
   rowKey?: Function
   total?: number
 }
