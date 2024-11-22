@@ -1,7 +1,7 @@
 {
   "name": "qmw-ui-naive",
   "private": false,
-  "version": "0.0.99",
+  "version": "0.0.104",
   "type": "module",
   "files": [
     "dist",

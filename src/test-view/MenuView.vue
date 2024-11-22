@@ -7,11 +7,17 @@
                       v-model:module-id="moduleId"
       ></qn-module-menu>
     </n-layout-content>
+    <n-layout-content has-sider>
+      <qn-single-menu :options="menus"
+                      collapse-trigger="bar"
+                      v-model:menu-id="menuId"
+      ></qn-single-menu>
+    </n-layout-content>
   </n-layout>
 </template>
 <script setup lang="ts">
 import { NLayout, NLayoutContent } from 'naive-ui'
-import { QnModuleMenu } from '../../lib'
+import { QnModuleMenu, QnSingleMenu } from '../../lib'
 import menus from '../test-data/menu.json'
 import { ref } from 'vue'
 

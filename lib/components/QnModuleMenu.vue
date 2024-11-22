@@ -114,7 +114,7 @@ defineSlots<{
     <slot name="right-header" :module="activeModule"></slot>
     <n-menu :value="menuId"
             :options="rightOptions(moduleId)"
-            :indent="20"
+            :indent="16"
             @update:value="$emit('update:menu-id', $event)"
     ></n-menu>
   </n-layout-sider>
