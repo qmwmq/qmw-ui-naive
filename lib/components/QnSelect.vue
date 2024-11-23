@@ -1,9 +1,9 @@
 <script setup lang="tsx">
-import { NSelect, NTooltip, type SelectOption } from 'naive-ui'
-import type { HTMLAttributes, VNode, VNodeChild } from 'vue'
+import { NEllipsis, NSelect, type SelectOption } from 'naive-ui'
+import { type HTMLAttributes, type VNodeChild } from 'vue'
 import QnLoadingSelect from './QnLoadingSelect.vue'
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   value?: any
   options?: any[]
   multiple?: boolean
@@ -11,26 +11,20 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   maxTagCount?: number | 'responsive'
   placeholder?: string
-  renderLabel?: (option: any, selected: boolean) => VNodeChild
+  renderLabel?: ((option?: any, selected?: boolean) => VNodeChild) | 'ellipsis-label'
   nodeProps?: (option: any) => HTMLAttributes & Record<string, unknown>
-  tooltipOption?: boolean
 }>(), {
   maxTagCount: 'responsive',
 })
 
-const renderOption = ({ node, option }: { node: VNode, option: SelectOption }): VNodeChild => {
-  if (props.tooltipOption)
-    return <NTooltip keep-alive-on-hover={ false }
-                     show-arrow={ false }
-                     delay={ 0 }
-                     duration={ 0 }
-    >
-      { {
-        'trigger': () => node,
-        'default': () => option.name
-      } }
-    </NTooltip>
-  return node
+const renderEllipsisLabel = (option: SelectOption): VNodeChild => {
+  const tooltip = {
+    keepAliveOnHover: false,
+    showArrow: false,
+    delay: 0,
+    duration: 0,
+  }
+  return <NEllipsis style="width: 100%" tooltip={ tooltip }>{ option.name }</NEllipsis>
 }
 
 defineEmits([ 'update:value' ])
@@ -44,8 +38,7 @@ defineEmits([ 'update:value' ])
             :disabled="disabled"
             :max-tag-count="maxTagCount"
             :placeholder="placeholder"
-            :render-label="renderLabel"
-            :render-option="renderOption"
+            :render-label="renderLabel === 'ellipsis-label' ? renderEllipsisLabel : renderLabel"
             :fallback-option="false"
             :node-props="nodeProps"
             clearable
