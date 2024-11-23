@@ -27,7 +27,7 @@ withDefaults(defineProps<{
     >
 
       <template #header>
-        <slot name="header"></slot>
+        <slot name="header">{{ header }}</slot>
       </template>
 
       <n-spin :show="loading">
