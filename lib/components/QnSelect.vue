@@ -13,8 +13,10 @@ withDefaults(defineProps<{
   placeholder?: string
   renderLabel?: (option: any, selected: boolean) => VNodeChild
   nodeProps?: (option: any) => HTMLAttributes & Record<string, unknown>
+  consistentMenuWidth?: boolean
 }>(), {
-  maxTagCount: 'responsive'
+  maxTagCount: 'responsive',
+  consistentMenuWidth: false,
 })
 
 defineEmits([ 'update:value' ])
@@ -29,7 +31,7 @@ defineEmits([ 'update:value' ])
             :placeholder="placeholder"
             :render-label="renderLabel"
             :fallback-option="false"
-            :consistent-menu-width="false"
+            :consistent-menu-width="consistentMenuWidth"
             :node-props="nodeProps"
             clearable
             filterable
