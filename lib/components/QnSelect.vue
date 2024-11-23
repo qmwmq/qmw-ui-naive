@@ -1,9 +1,9 @@
-<script setup lang="ts">
-import { NSelect } from 'naive-ui'
-import type { HTMLAttributes, VNodeChild } from 'vue'
+<script setup lang="tsx">
+import { NSelect, NTooltip, type SelectOption } from 'naive-ui'
+import type { HTMLAttributes, VNode, VNodeChild } from 'vue'
 import QnLoadingSelect from './QnLoadingSelect.vue'
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   value?: any
   options?: any[]
   multiple?: boolean
@@ -13,25 +13,40 @@ withDefaults(defineProps<{
   placeholder?: string
   renderLabel?: (option: any, selected: boolean) => VNodeChild
   nodeProps?: (option: any) => HTMLAttributes & Record<string, unknown>
-  consistentMenuWidth?: boolean
+  tooltipOption?: boolean
 }>(), {
   maxTagCount: 'responsive',
-  consistentMenuWidth: false,
 })
+
+const renderOption = ({ node, option }: { node: VNode, option: SelectOption }): VNodeChild => {
+  if (props.tooltipOption)
+    return <NTooltip keep-alive-on-hover={ false }
+                     show-arrow={ false }
+                     delay={ 0 }
+                     duration={ 0 }
+    >
+      { {
+        'trigger': () => node,
+        'default': () => option.name
+      } }
+    </NTooltip>
+  return node
+}
 
 defineEmits([ 'update:value' ])
 </script>
 <template>
   <qn-loading-select v-if="loading"></qn-loading-select>
-  <n-select :value="value"
+  <n-select v-else
+            :value="value"
             :options="options"
             :multiple="multiple"
             :disabled="disabled"
             :max-tag-count="maxTagCount"
             :placeholder="placeholder"
             :render-label="renderLabel"
+            :render-option="renderOption"
             :fallback-option="false"
-            :consistent-menu-width="consistentMenuWidth"
             :node-props="nodeProps"
             clearable
             filterable
