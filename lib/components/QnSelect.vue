@@ -11,7 +11,7 @@ withDefaults(defineProps<{
   disabled?: boolean
   maxTagCount?: number | 'responsive'
   placeholder?: string
-  renderLabel?: ((option?: any, selected?: boolean) => VNodeChild) | 'ellipsis-label'
+  renderLabel?: (option?: any, selected?: boolean) => VNodeChild
   nodeProps?: (option: any) => HTMLAttributes & Record<string, unknown>
 }>(), {
   maxTagCount: 'responsive',
@@ -38,7 +38,7 @@ defineEmits([ 'update:value' ])
             :disabled="disabled"
             :max-tag-count="maxTagCount"
             :placeholder="placeholder"
-            :render-label="renderLabel === 'ellipsis-label' ? renderEllipsisLabel : renderLabel"
+            :render-label="renderLabel ? renderLabel : renderEllipsisLabel"
             :fallback-option="false"
             :node-props="nodeProps"
             clearable
