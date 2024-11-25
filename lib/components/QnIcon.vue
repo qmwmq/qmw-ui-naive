@@ -32,6 +32,7 @@ import {
   Renew,
   Search,
   Settings,
+  Time,
   Upload,
   User,
   WarningFilled
@@ -67,6 +68,7 @@ const IconMap = {
   'reset': Renew,
   'search': Search,
   'setup': Settings,
+  'time': Time,
   'upload': Upload,
   'user': User,
   'warning-filled': WarningFilled,
