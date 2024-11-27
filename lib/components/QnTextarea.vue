@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { NInput } from 'naive-ui'
+
 withDefaults(defineProps<{
   value?: any
   minRows?: number
