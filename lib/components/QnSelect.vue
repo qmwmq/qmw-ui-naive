@@ -13,8 +13,10 @@ withDefaults(defineProps<{
   placeholder?: string
   renderLabel?: (option?: any, selected?: boolean) => VNodeChild
   nodeProps?: (option: any) => HTMLAttributes & Record<string, unknown>
+  fallbackOption?: false | ((value: string | number) => SelectOption)
 }>(), {
   maxTagCount: 'responsive',
+  fallbackOption: false,
 })
 
 const renderEllipsisLabel = (option: SelectOption): VNodeChild => {
@@ -24,7 +26,7 @@ const renderEllipsisLabel = (option: SelectOption): VNodeChild => {
     delay: 0,
     duration: 0,
   }
-  return <NEllipsis style="width: 100%" tooltip={ tooltip }>{ option.name }</NEllipsis>
+  return <NEllipsis tooltip={ tooltip }>{ option.name }</NEllipsis>
 }
 
 defineEmits([ 'update:value' ])
@@ -39,7 +41,7 @@ defineEmits([ 'update:value' ])
             :max-tag-count="maxTagCount"
             :placeholder="placeholder"
             :render-label="renderLabel ? renderLabel : renderEllipsisLabel"
-            :fallback-option="false"
+            :fallback-option="fallbackOption"
             :node-props="nodeProps"
             clearable
             filterable
