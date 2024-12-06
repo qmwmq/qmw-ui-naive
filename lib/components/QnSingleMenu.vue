@@ -8,10 +8,12 @@ import { ArrayUtils } from 'qmwts'
 
 const props = withDefaults(defineProps<{
   menuId?: number | string
-  options?: Option[],
+  options?: Option[]
   collapseTrigger?: 'bar' | 'arrow-circle'
+  accordion?: boolean
 }>(), {
   options: () => [],
+  accordion: true,
 })
 
 const collapsed = ref(false)
@@ -53,6 +55,7 @@ defineEmits([ 'update:menu-id' ])
             :options="treeOptions"
             :indent="16"
             inverted
+            :accordion="accordion"
             @update:value="$emit('update:menu-id', $event)"
     ></n-menu>
   </n-layout-sider>
