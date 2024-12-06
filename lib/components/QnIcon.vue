@@ -17,6 +17,7 @@ import {
   Close,
   CloseFilled,
   CloseOutline,
+  CloudUpload,
   Copy,
   Delete,
   DotMark,
@@ -36,7 +37,7 @@ import {
   Time,
   Upload,
   User,
-  WarningFilled
+  WarningFilled,
 } from '@vicons/carbon'
 
 const IconMap = {
@@ -72,6 +73,7 @@ const IconMap = {
   'setup': Settings,
   'time': Time,
   'upload': Upload,
+  'upload-cloud': CloudUpload,
   'user': User,
   'warning-filled': WarningFilled,
 }
