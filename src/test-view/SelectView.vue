@@ -1,5 +1,5 @@
 <template>
-  <qn-select :options="options" render-label="ellipsis-label" style="width: 200px"></qn-select>
+  <qn-select :options="options" style="width: 200px"></qn-select>
 </template>
 <script setup lang="ts">
 import { QnSelect } from '../../lib'
