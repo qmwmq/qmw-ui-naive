@@ -29,7 +29,18 @@ const renderEllipsisLabel = (option: SelectOption): VNodeChild => {
   return <NEllipsis tooltip={ tooltip }>{ option.name }</NEllipsis>
 }
 
-defineEmits([ 'update:value' ])
+const updateShow = (show: boolean) => {
+  if (show)
+    emits('open')
+  else
+    emits('close')
+}
+
+const emits = defineEmits([
+  'update:value',
+  'open',
+  'close',
+])
 </script>
 <template>
   <qn-loading-select v-if="loading"></qn-loading-select>
@@ -47,7 +58,8 @@ defineEmits([ 'update:value' ])
             filterable
             value-field="id"
             label-field="name"
-            @update:value="$emit('update:value', $event)"
+            @update:value="emits('update:value', $event)"
+            @update:show="updateShow"
   >
     <template #header>
       <slot name="header"></slot>
