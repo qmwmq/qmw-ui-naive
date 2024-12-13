@@ -14,5 +14,12 @@ const emits = defineEmits([ 'update:value' ])
            :maxlength="maxlength"
            :show-count="NumberUtils.isNumber(maxlength)"
            @update:value="emits('update:value', $event)"
-  ></n-input>
+  >
+    <template #prefix>
+      <slot name="prefix"></slot>
+    </template>
+    <template #suffix>
+      <slot name="suffix"></slot>
+    </template>
+  </n-input>
 </template>
