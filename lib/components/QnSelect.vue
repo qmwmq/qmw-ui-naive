@@ -1,7 +1,6 @@
 <script setup lang="tsx">
-import { NEllipsis, NSelect, type SelectOption } from 'naive-ui'
+import { NEllipsis, NSelect, NSpin, NText, type SelectOption } from 'naive-ui'
 import { type HTMLAttributes, type VNodeChild } from 'vue'
-import QnLoadingSelect from './QnLoadingSelect.vue'
 
 withDefaults(defineProps<{
   value?: any
@@ -29,24 +28,14 @@ const renderEllipsisLabel = (option: SelectOption): VNodeChild => {
   return <NEllipsis tooltip={ tooltip }>{ option.name }</NEllipsis>
 }
 
-const updateShow = (show: boolean) => {
-  if (show)
-    emits('open')
-  else
-    emits('close')
-}
-
 const emits = defineEmits([
   'update:value',
-  'open',
-  'close',
+  'update:show',
 ])
 </script>
 <template>
-  <qn-loading-select v-if="loading"></qn-loading-select>
-  <n-select v-else
-            :value="value"
-            :options="options"
+  <n-select :value="loading ? null : value"
+            :options="loading ? [] : options"
             :multiple="multiple"
             :disabled="disabled"
             :max-tag-count="maxTagCount"
@@ -54,18 +43,26 @@ const emits = defineEmits([
             :render-label="renderLabel ? renderLabel : renderEllipsisLabel"
             :fallback-option="fallbackOption"
             :node-props="nodeProps"
+            :loading="loading"
             clearable
             filterable
             value-field="id"
             label-field="name"
             @update:value="emits('update:value', $event)"
-            @update:show="updateShow"
+            @update:show="emits('update:show', $event)"
   >
     <template #header>
       <slot name="header"></slot>
     </template>
     <template #action>
       <slot name="footer"></slot>
+    </template>
+    <template #empty>
+      <n-spin v-if="loading">
+        <template #description>
+          <n-text depth="3">数据加载中</n-text>
+        </template>
+      </n-spin>
     </template>
   </n-select>
 </template>
