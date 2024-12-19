@@ -3,7 +3,7 @@ import type { Icon } from './QnIcon.vue'
 import QnIcon from './QnIcon.vue'
 import { type MenuOption, NLayoutSider, NMenu } from 'naive-ui'
 import type { Option } from './QnModuleMenu.vue'
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { ArrayUtils } from 'qmwts'
 
 const props = withDefaults(defineProps<{
@@ -18,10 +18,11 @@ const props = withDefaults(defineProps<{
 
 const menuRef = ref()
 watch(() => props.menuId, key => {
-  const { showOption } = menuRef?.value
-  if (typeof showOption === 'function')
-    showOption(key)
-})
+  nextTick(() => setTimeout(() => menuRef.value.showOption(key), 500))
+  // const { showOption } = menuRef?.value
+  // if (typeof showOption === 'function')
+  //   showOption(key)
+}, { immediate: true })
 
 const collapsed = ref(false)
 
