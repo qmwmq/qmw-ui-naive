@@ -17,11 +17,17 @@ const props = withDefaults(defineProps<{
 })
 
 const menuRef = ref()
-watch(() => props.menuId, key => {
-  nextTick(() => setTimeout(() => menuRef.value.showOption(key), 500))
-  // const { showOption } = menuRef?.value
-  // if (typeof showOption === 'function')
-  //   showOption(key)
+let timeout = false
+watch(() => props.menuId, () => {
+  if (!timeout) { // menuId过于频繁变化showOption不会生效，这里设定100毫秒内只生效一次
+    timeout = true
+    nextTick(() => {
+      setTimeout(() => {
+        menuRef.value.showOption(props.menuId) // 只取最后时刻的menuId，相当于100毫秒内menuId如何变化都不会触发showOption
+        timeout = false
+      }, 100)
+    })
+  }
 }, { immediate: true })
 
 const collapsed = ref(false)
