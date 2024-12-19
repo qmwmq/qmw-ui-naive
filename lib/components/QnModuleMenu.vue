@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<{
 })
 
 // menuId发生变化时修改moduleId
-watch(() => props.menuId, menuId => {
+watch(() => props.menuId, menuId => { // todo 此时menuId有值，但menu可能还没加载出来
   let menu = void 0
   let moduleId = menuId
   do {
@@ -32,6 +32,7 @@ watch(() => props.menuId, menuId => {
     if (menu && menu.parentId)
       moduleId = menu.parentId
   } while (menu)
+  console.log(moduleId)
   emits('update:module-id', moduleId)
 }, { immediate: true })
 
