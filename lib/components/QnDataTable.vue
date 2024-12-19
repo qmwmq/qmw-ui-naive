@@ -269,10 +269,8 @@ const summary0 = () => {
                   @update:page-size="emits('update:page-size', $event); emits('update:page')"
     >
       <template #prefix>
-        共 {{ total }} 条数据
-        <template v-if="selections?.length > 0">
-          &nbsp;&nbsp;已选 {{ selections.length }}
-        </template>
+        <template v-if="!loading">共 {{ total }} 条数据</template>
+        <template v-if="selections?.length > 0">&nbsp;&nbsp;已选 {{ selections.length }}</template>
       </template>
     </n-pagination>
   </n-layout-footer>

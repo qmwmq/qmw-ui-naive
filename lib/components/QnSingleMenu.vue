@@ -3,7 +3,7 @@ import type { Icon } from './QnIcon.vue'
 import QnIcon from './QnIcon.vue'
 import { type MenuOption, NLayoutSider, NMenu } from 'naive-ui'
 import type { Option } from './QnModuleMenu.vue'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { ArrayUtils } from 'qmwts'
 
 const props = withDefaults(defineProps<{
@@ -14,6 +14,13 @@ const props = withDefaults(defineProps<{
 }>(), {
   options: () => [],
   accordion: true,
+})
+
+const menuRef = ref()
+watch(() => props.menuId, key => {
+  const { showOption } = menuRef?.value
+  if (typeof showOption === 'function')
+    showOption(key)
 })
 
 const collapsed = ref(false)
@@ -51,7 +58,8 @@ defineEmits([ 'update:menu-id' ])
                   v-model:collapsed="collapsed"
   >
     <slot name="header"></slot>
-    <n-menu :value="menuId"
+    <n-menu ref="menuRef"
+            :value="menuId"
             :options="treeOptions"
             :indent="16"
             inverted
