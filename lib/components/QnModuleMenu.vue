@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { type MenuOption, NDropdown, NLayoutSider, NMenu } from 'naive-ui'
-import { computed, ref, type VNodeChild, watch } from 'vue'
+import { computed, nextTick, ref, type VNodeChild, watch } from 'vue'
 import QnIcon, { type Icon } from './QnIcon.vue'
 import { ArrayUtils } from 'qmwts'
 
@@ -17,14 +17,16 @@ export interface Option {
 const props = withDefaults(defineProps<{
   moduleId?: number | string
   menuId?: number | string
-  options?: Option[],
+  options?: Option[]
   collapseTrigger?: 'bar' | 'arrow-circle'
+  accordion: boolean
 }>(), {
   options: () => [],
+  accordion: true,
 })
 
 // menuId发生变化时修改moduleId
-watch(() => props.menuId, menuId => { // todo 此时menuId有值，但menu可能还没加载出来
+watch(() => props.options.find(e => e.id === props.menuId)?.id, menuId => {
   let menu = void 0
   let moduleId = menuId
   do {
@@ -32,8 +34,12 @@ watch(() => props.menuId, menuId => { // todo 此时menuId有值，但menu可能
     if (menu && menu.parentId)
       moduleId = menu.parentId
   } while (menu)
-  console.log(moduleId)
   emits('update:module-id', moduleId)
+}, { immediate: true })
+
+const menuRef = ref()
+watch(() => props.options.find(e => e.id === props.menuId)?.id, () => {
+  nextTick(() => menuRef.value.showOption(props.menuId))
 }, { immediate: true })
 
 const treeOptions = computed((): MenuOption[] =>
@@ -113,9 +119,11 @@ defineSlots<{
                   v-model:collapsed="collapsed"
   >
     <slot name="right-header" :module="activeModule"></slot>
-    <n-menu :value="menuId"
+    <n-menu ref="menuRef"
+            :value="menuId"
             :options="rightOptions(moduleId)"
             :indent="16"
+            :accordion="accordion"
             @update:value="$emit('update:menu-id', $event)"
     ></n-menu>
   </n-layout-sider>

@@ -17,17 +17,10 @@ const props = withDefaults(defineProps<{
 })
 
 const menuRef = ref()
-let timeout = false
-watch(() => props.menuId, () => {
-  if (!timeout) { // menuId过于频繁变化showOption不会生效，这里设定100毫秒内只生效一次 // todo 此时menuId有值，但menu可能还没加载出来
-    timeout = true
-    nextTick(() => {
-      setTimeout(() => {
-        menuRef.value.showOption(props.menuId) // 只取最后时刻的menuId，相当于100毫秒内menuId如何变化都不会触发showOption
-        timeout = false
-      }, 100)
-    })
-  }
+
+// 根据options和menuId同时确定当前的menuId，因为menuId存在时，options可能为[]
+watch(() => props.options.find(e => e.id === props.menuId)?.id, () => {
+  nextTick(() => menuRef.value.showOption(props.menuId))
 }, { immediate: true })
 
 const collapsed = ref(false)
