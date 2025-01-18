@@ -23,7 +23,7 @@ export interface DataTableColumn {
 }
 
 const emits = defineEmits([
-  'update:page-num',
+  'update:page-no',
   'update:page-size',
   'update:page',
   'update:sort-order',
@@ -50,7 +50,7 @@ export interface DataTableProps {
   columns?: DataTableColumn[]
   data?: any[]
   loading?: boolean
-  pageNum?: number
+  pageNo?: number
   pageSize?: number
   paginationPlacement?: 'top' | 'bottom' | 'fixed-bottom' | 'none'
   selections?: any[]
@@ -66,7 +66,7 @@ const props = withDefaults(defineProps<DataTableProps>(), {
   columns: () => [],
   data: () => [],
   loading: false,
-  pageNum: 1,
+  pageNo: 1,
   pageSize: 20,
   paginationPlacement: 'bottom',
   selections: () => [],
@@ -217,11 +217,11 @@ const updateSorter = ({ columnKey: sortKey, order: sortOrder }: {
 
 // 监听最大页数是否超出，超出则返回第一页
 watch(() => {
-  const { pageNum = 1, pageSize = 20, total = 0 } = props
-  return pageNum > Math.ceil(total / pageSize)
+  const { pageNo = 1, pageSize = 20, total = 0 } = props
+  return pageNo > Math.ceil(total / pageSize)
 }, overflow => {
   if (overflow) {
-    emits('update:page-num', 1)
+    emits('update:page-no', 1)
     emits('update:page')
   }
 })
@@ -257,7 +257,7 @@ const summary0 = () => {
                 @update:sorter="updateSorter"
   ></n-data-table>
   <n-layout-footer v-bind="paginationProps" ref="footerRef">
-    <n-pagination :page="pageNum || 1"
+    <n-pagination :page="pageNo || 1"
                   :page-size="pageSize || 20"
                   :item-count="total"
                   :disabled="loading"
@@ -265,7 +265,7 @@ const summary0 = () => {
                   show-quick-jumper
                   :page-sizes="[ 20, 50, 100 ]"
                   :display-order="[ 'size-picker', 'quick-jumper', 'pages' ]"
-                  @update:page="emits('update:page-num', $event); emits('update:page')"
+                  @update:page="emits('update:page-no', $event); emits('update:page')"
                   @update:page-size="emits('update:page-size', $event); emits('update:page')"
     >
       <template #prefix>

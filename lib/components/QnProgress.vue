@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { NProgress } from 'naive-ui'
-import type { Status } from 'naive-ui/es/progress/src/interface'
+import type { ProgressStatus } from 'naive-ui/es/progress/src/public-types'
 
 withDefaults(defineProps<{
   percentage?: number
   height?: number
-  status?: Status
+  status?: ProgressStatus
 }>(), {
   percentage: 0,
   height: 16,
