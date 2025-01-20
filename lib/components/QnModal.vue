@@ -18,6 +18,7 @@ withDefaults(defineProps<{
 <template>
   <n-modal :show="visible"
            :style="{ width: `${ width }px` }"
+           draggable
            @update:show="$emit('update:visible', $event)"
   >
     <n-card closable
