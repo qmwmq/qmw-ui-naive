@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<{
   menuId?: number | string
   options?: Option[]
   collapseTrigger?: 'bar' | 'arrow-circle'
-  accordion: boolean
+  accordion?: boolean
 }>(), {
   options: () => [],
   accordion: true,

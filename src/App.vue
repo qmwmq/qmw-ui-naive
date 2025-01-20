@@ -1,7 +1,7 @@
 <template>
   <qn-config-provider theme="light">
     <n-theme-editor>
-      <upload-test></upload-test>
+      <modal-view></modal-view>
       <select-view></select-view>
       <date-picker-view></date-picker-view>
       <data-table-view></data-table-view>
@@ -17,4 +17,5 @@ import DataTableView from './test-view/DataTableView.vue'
 import DatePickerView from './test-view/DatePickerView.vue'
 import SelectView from './test-view/SelectView.vue'
 import UploadTest from './test-view/UploadTest.vue'
+import ModalView from './test-view/ModalView.vue'
 </script>
