@@ -5,6 +5,7 @@ import QnContextMenu from './components/QnContextMenu.vue'
 import QnDatePicker from './components/QnDatePicker.vue'
 import QnDateRangePicker from './components/QnDateRangePicker.vue'
 import QnDataTable from './components/QnDataTable.vue'
+import QnDrawer from './components/QnDrawer.vue'
 import QnGridForm from './components/QnGridForm.vue'
 import QnIcon from './components/QnIcon.vue'
 import QnInput from './components/QnInput.vue'
@@ -31,6 +32,7 @@ export {
   QnDatePicker,
   QnDateRangePicker,
   QnDataTable,
+  QnDrawer,
   QnGridForm,
   QnIcon,
   QnInput,
@@ -53,6 +55,7 @@ export default {
     app.component('QnDatePicker', QnDatePicker)
     app.component('QnDateRangePicker', QnDateRangePicker)
     app.component('QnDataTable', QnDataTable)
+    app.component('QnDrawer', QnDrawer)
     app.component('QnGridForm', QnGridForm)
     app.component('QnIcon', QnIcon)
     app.component('QnInput', QnInput)
@@ -76,6 +79,7 @@ declare module 'vue' {
     QnDatePicker: typeof QnDatePicker
     QnDateRangePicker: typeof QnDateRangePicker
     QnDataTable: typeof QnDataTable
+    QnDrawer: typeof QnDrawer
     QnGridForm: typeof QnGridForm
     QnIcon: typeof QnIcon
     QnInput: typeof QnInput
