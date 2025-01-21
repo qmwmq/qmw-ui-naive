@@ -6,7 +6,7 @@ import { computed, nextTick, onMounted, ref, type VNodeChild, watch } from 'vue'
 import { NumberUtils } from 'qmwts'
 
 export interface DataTableColumn {
-  key?: string | number
+  key: string | number
   title?: string | (() => VNodeChild)
   align?: 'left' | 'right' | 'center'
   titleAlign?: 'left' | 'right' | 'center'
