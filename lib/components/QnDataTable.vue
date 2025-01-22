@@ -6,7 +6,7 @@ import { computed, nextTick, onMounted, ref, type VNodeChild, watch } from 'vue'
 import { NumberUtils } from 'qmwts'
 
 export interface DataTableColumn {
-  key: string | number
+  key?: string | number
   title?: string | (() => VNodeChild)
   align?: 'left' | 'right' | 'center'
   titleAlign?: 'left' | 'right' | 'center'
@@ -126,7 +126,7 @@ const mapColumns = (columns: DataTableColumn[]) => {
                         resizable = true,
                         children,
                       }: DataTableColumn): any => {
-    let column: DataTableColumn = { title, titleAlign, fixed, resizable }
+    let column: DataTableColumn = { key, title, titleAlign, fixed, resizable }
     if (children) { // 有children则继续渲染children，当前级别的表头不需要继续渲染，因为有些属性不需要生效
       column.children = mapColumns(children)
       column.width = NumberUtils.summation(column.children.map((e: any) => e.width)) // 因为需要计算scrollX，所以需要将children的width读取出来
@@ -168,10 +168,10 @@ const mapColumns = (columns: DataTableColumn[]) => {
                      } }
           ></NCheckbox>
           <NDropdown options={ titleOptions }
-                     onSelect={ key => {
-                       if (key === 1) {
+                     onSelect={ k => {
+                       if (k === 1) {
                          emits('check-all')
-                       } else if (key === 2) {
+                       } else if (k === 2) {
                          emits('update:selections', [])
                          emits('uncheck-all')
                        }
@@ -190,7 +190,7 @@ const mapColumns = (columns: DataTableColumn[]) => {
     } else { // 普通的表头，传递所有属性
       if (props.sortKey === key)
         sortOrder = props.sortOrder
-      column = { ...column, key, width, align, sorter, sortOrder, type, render }
+      column = { ...column, width, align, sorter, sortOrder, type, render }
     }
     column.cellProps = (row: any) => {
       const style = {} as any

@@ -12,6 +12,7 @@ export interface Option {
   name?: string
   icon?: string
   path?: string
+  query?: string
 }
 
 const props = withDefaults(defineProps<{
