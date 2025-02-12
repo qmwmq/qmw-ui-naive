@@ -5,6 +5,7 @@ import { NumberUtils } from 'qmwts'
 withDefaults(defineProps<{
   value?: any
   maxlength?: number | string
+  placeholder?: string
 }>(), {})
 const emits = defineEmits([ 'update:value' ])
 </script>
@@ -13,6 +14,7 @@ const emits = defineEmits([ 'update:value' ])
            clearable
            :maxlength="maxlength"
            :show-count="NumberUtils.isNumber(maxlength)"
+           :placeholder="placeholder"
            @update:value="emits('update:value', $event)"
   >
     <template #prefix>
