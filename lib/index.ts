@@ -18,6 +18,7 @@ import QnProgress from './components/QnProgress.vue'
 import QnSelect from './components/QnSelect.vue'
 import QnSingleMenu from './components/QnSingleMenu.vue'
 import QnTabs from './components/QnTabs.vue'
+import QnTree from './components/QnTree.vue'
 
 export { default as api } from './api'
 export { default as theme } from './themes'
@@ -45,6 +46,7 @@ export {
   QnSelect,
   QnSingleMenu,
   QnTabs,
+  QnTree,
 }
 
 export default {
@@ -68,6 +70,7 @@ export default {
     app.component('QnSelect', QnSelect)
     app.component('QnSingleMenu', QnSingleMenu)
     app.component('QnTabs', QnTabs)
+    app.component('QnTree', QnTree)
   }
 }
 
@@ -92,5 +95,6 @@ declare module 'vue' {
     QnSelect: typeof QnSelect
     QnSingleMenu: typeof QnSingleMenu
     QnTabs: typeof QnTabs
+    QnTree: typeof QnTree
   }
 }
