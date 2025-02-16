@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { NTree } from 'naive-ui'
 import type { TreeOption } from 'naive-ui'
 import type { TreeRenderProps } from 'naive-ui/lib/tree/src/interface'
 import type { VNodeChild } from 'vue'
