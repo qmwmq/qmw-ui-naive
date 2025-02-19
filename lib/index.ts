@@ -25,6 +25,7 @@ export { default as theme } from './themes'
 
 export type { DataTableColumn } from './components/QnDataTable.vue'
 export type { Option as MenuOption } from './components/QnModuleMenu.vue'
+export type { Tab } from './components/QnTabs.vue'
 
 export {
   QnButton,
