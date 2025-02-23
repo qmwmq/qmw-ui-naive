@@ -15,6 +15,7 @@ import QnLoadingSelect from './components/QnLoadingSelect.vue'
 import QnModal from './components/QnModal.vue'
 import QnModuleMenu from './components/QnModuleMenu.vue'
 import QnProgress from './components/QnProgress.vue'
+import QnSegment from './components/QnSegment.vue'
 import QnSelect from './components/QnSelect.vue'
 import QnSingleMenu from './components/QnSingleMenu.vue'
 import QnTabs from './components/QnTabs.vue'
@@ -44,6 +45,7 @@ export {
   QnModal,
   QnModuleMenu,
   QnProgress,
+  QnSegment,
   QnSelect,
   QnSingleMenu,
   QnTabs,
@@ -68,6 +70,7 @@ export default {
     app.component('QnModal', QnModal)
     app.component('QnModuleMenu', QnModuleMenu)
     app.component('QnProgress', QnProgress)
+    app.component('QnSegment', QnSegment)
     app.component('QnSelect', QnSelect)
     app.component('QnSingleMenu', QnSingleMenu)
     app.component('QnTabs', QnTabs)
@@ -93,6 +96,7 @@ declare module 'vue' {
     QnModal: typeof QnModal
     QnModuleMenu: typeof QnModuleMenu
     QnProgress: typeof QnProgress
+    QnSegment: typeof QnSegment
     QnSelect: typeof QnSelect
     QnSingleMenu: typeof QnSingleMenu
     QnTabs: typeof QnTabs

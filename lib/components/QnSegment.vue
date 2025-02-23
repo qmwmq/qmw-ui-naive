@@ -2,9 +2,20 @@
 import { NTabs, useThemeVars } from 'naive-ui'
 
 const themeVars = useThemeVars()
+
+withDefaults(defineProps<{
+  value?: string | number
+  size?: 'small' | 'medium' | 'large'
+}>(), {})
+
+const emits = defineEmits([ 'update:value' ])
 </script>
 <template>
-  <n-tabs type="segment">
+  <n-tabs type="segment"
+          :value="value"
+          :size="size"
+          @update:value="emits('update:value', $event)"
+  >
     <slot></slot>
   </n-tabs>
 </template>
@@ -13,14 +24,14 @@ const themeVars = useThemeVars()
   background: v-bind('themeVars.primaryColor') !important;
 }
 
-@keyframes text-color {
+@keyframes color-animate {
   to {
     color: white;
   }
 }
 
 :deep(.n-tabs-tab.n-tabs-tab--active .n-tabs-tab__label) {
-  animation: text-color 0.2s linear;
+  animation: color-animate 0.2s linear;
   animation-fill-mode: forwards;
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <qn-config-provider theme="light">
+  <qn-config-provider theme="dark">
     <n-theme-editor>
       <qn-segment>
         <n-tab name="1" tab="xxx"></n-tab>
