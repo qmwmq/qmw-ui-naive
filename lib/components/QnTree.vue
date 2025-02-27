@@ -20,6 +20,7 @@ const props = withDefaults(defineProps<{
   labelField: 'name',
   defaultExpandAll: true,
   checkable: false,
+  checkStrategy: 'all',
 })
 
 const emits = defineEmits([ 'update:checked-keys' ])
