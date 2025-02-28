@@ -9,18 +9,15 @@ withDefaults(defineProps<{
 })
 </script>
 <template>
+  <slot name="title">
+    <n-h3 prefix="bar" v-if="title">{{ title }}</n-h3>
+  </slot>
   <n-descriptions :column="+column"
-                  :title="title"
                   label-placement="left"
                   label-align="right"
                   bordered
                   size="small"
   >
-    <template #header>
-      <slot name="title">
-        <n-h3 prefix="bar">{{ title }}</n-h3>
-      </slot>
-    </template>
     <slot></slot>
   </n-descriptions>
 </template>
