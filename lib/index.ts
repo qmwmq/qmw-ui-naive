@@ -8,6 +8,7 @@ import QnDataTable from './components/QnDataTable.vue'
 import QnDescriptions from './components/QnDescriptions.vue'
 import QnDrawer from './components/QnDrawer.vue'
 import QnGridForm from './components/QnGridForm.vue'
+import QnHighlight from './components/QnHighlight.vue'
 import QnIcon from './components/QnIcon.vue'
 import QnInput from './components/QnInput.vue'
 import QnInputNumber from './components/QnInputNumber.vue'
@@ -39,6 +40,7 @@ export {
   QnDescriptions,
   QnDrawer,
   QnGridForm,
+  QnHighlight,
   QnIcon,
   QnInput,
   QnInputNumber,
@@ -65,6 +67,7 @@ export default {
     app.component('QnDescriptions', QnDescriptions)
     app.component('QnDrawer', QnDrawer)
     app.component('QnGridForm', QnGridForm)
+    app.component('QnHighlight', QnHighlight)
     app.component('QnIcon', QnIcon)
     app.component('QnInput', QnInput)
     app.component('QnInputNumber', QnInputNumber)
@@ -92,6 +95,7 @@ declare module 'vue' {
     QnDescriptions: typeof QnDescriptions
     QnDrawer: typeof QnDrawer
     QnGridForm: typeof QnGridForm
+    QnHighlight: typeof QnHighlight
     QnIcon: typeof QnIcon
     QnInput: typeof QnInput
     QnInputNumber: typeof QnInputNumber
