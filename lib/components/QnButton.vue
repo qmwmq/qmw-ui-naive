@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NButton } from 'naive-ui'
-import type { Type } from 'naive-ui/lib/button/src/interface'
+import type { Size, Type } from 'naive-ui/lib/button/src/interface'
 import QnIcon, { type Icon } from './QnIcon.vue'
 
 const props = withDefaults(defineProps<{
@@ -14,6 +14,7 @@ const props = withDefaults(defineProps<{
   secondary?: boolean
   text?: boolean
   type?: Type
+  size?: Size
 }>(), {
   type: 'primary',
 })
