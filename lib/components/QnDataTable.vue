@@ -96,16 +96,34 @@ const paginationProps = computed(() => {
 
 // 勾选的check方法
 const onChecked = (checked: boolean, rows: any[]) => {
-  const o = [ ...props.selections ]
-  rows.forEach(row => {
-    const index = o.findIndex(e => props.rowKey(e) === props.rowKey(row))
-    if (checked && index >= 0) // 勾选且存在，覆盖已存在的选项
-      o.splice(index, 1, row)
-    else if (checked && index < 0) // 勾选但不存在，末尾插入
+  // const o = [ ...props.selections ]
+  // rows.forEach(row => {
+  //   const index = o.findIndex(e => props.rowKey(e) === props.rowKey(row))
+  //   if (checked && index >= 0) // 勾选且存在，覆盖已存在的选项
+  //     o.splice(index, 1, row)
+  //   else if (checked && index < 0) // 勾选但不存在，末尾插入
+  //     o.push(row)
+  //   else if (!checked && index >= 0) // 反选且存在，删除
+  //     o.splice(index, 1)
+  // })
+  // emits('update:selections', o)
+  const o: any[] = []
+  const length1 = rows.length
+  const { selections } = props
+  const length2 = selections.length
+  const excludeRowKeys = []
+  for (let i = 0; i < length1; i++) {
+    const row = rows[i]
+    excludeRowKeys.push(props.rowKey(row))
+    if (checked) // 如果是勾选则先预添加进去，如果是反选则不添加
       o.push(row)
-    else if (!checked && index >= 0) // 反选且存在，删除
-      o.splice(index, 1)
-  })
+  }
+  for (let j = 0; j < length2; j++) {
+    const selection = selections[j]
+    const selectionKey = props.rowKey(selection)
+    if (!excludeRowKeys.includes(selectionKey)) // 如果是勾选则已经添加过了无需添加，如果是反选则不必添加
+      o.push(selection)
+  }
   emits('update:selections', o)
 }
 
