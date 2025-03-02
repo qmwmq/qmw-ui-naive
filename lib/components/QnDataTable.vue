@@ -30,9 +30,9 @@ const emits = defineEmits([
   'update:sort-key',
   'update:sort',
   'update:selections',
-  'check-all',
-  'check-page',
-  'uncheck-all',
+  'select-all',
+  'select-page',
+  'unselect-all',
 ])
 
 const themeVars = useThemeVars()
@@ -164,16 +164,16 @@ const mapColumns = (columns: DataTableColumn[]) => {
                      indeterminate={ indeterminate }
                      onUpdateChecked={ checked => {
                        onChecked(checked, props.data.filter(e => !disabled(e)))
-                       emits('check-page', checked)
+                       emits('select-page', checked)
                      } }
           ></NCheckbox>
           <NDropdown options={ titleOptions }
                      onSelect={ k => {
                        if (k === 1) {
-                         emits('check-all')
+                         emits('select-all')
                        } else if (k === 2) {
                          emits('update:selections', [])
-                         emits('uncheck-all')
+                         emits('unselect-all')
                        }
                      } }
           >
