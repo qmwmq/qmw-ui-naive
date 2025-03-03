@@ -170,11 +170,31 @@ const mapColumns = (columns: DataTableColumn[]) => {
             props: { style: { color: themeVars.value.errorColor } },
           },
         ]
-        const checked = props.selections.length > 0 &&
-            props.data
-                .filter(e => !disabled(e))
-                .every(e => props.selections.some(o => props.rowKey(e) === props.rowKey(o)))
-        const indeterminate = props.selections.length > 0 && !checked
+        // 是否全选的判断
+        const { selections } = props
+        let checked = true // 这里预设为true，循环里好判断
+        if (selections.length > 0) {
+          const { data } = props
+          const length1 = data.length
+          const length2 = selections.length
+          loop:
+              for (let i = 0; i < length1; i++) {
+                const d = data[i]
+                const rowKey1 = props.rowKey(d)
+                for (let j = 0; j < length2; j++) {
+                  const s = selections[j]
+                  const rowKey2 = props.rowKey(s)
+                  if (rowKey1 === rowKey2) // 包含这个元素，进行下一个元素的判断，保持checked=true
+                    continue loop
+                }
+                checked = false // 能执行到这里说明不包含这个元素，则全选为checked=false
+                break
+              }
+        } else {
+          checked = false // 没有数据则checked=false
+        }
+
+        const indeterminate = !checked && selections.length > 0
 
         return <NFlex justify="center" size={ 2 } wrap={ false }>
           <QnIcon icon="chevron-down" style="visibility: hidden"></QnIcon>
@@ -199,11 +219,25 @@ const mapColumns = (columns: DataTableColumn[]) => {
           </NDropdown>
         </NFlex>
       }
-      render = (row: any) =>
-          <NCheckbox checked={ props.selections.some(e => props.rowKey(e) === props.rowKey(row)) }
-                     onUpdateChecked={ e => onChecked(e, [ row ].filter(e => !disabled(e))) }
-                     disabled={ disabled(row) }
-          ></NCheckbox>
+      const { selections } = props
+      const length = selections.length
+
+      render = (row: any) => {
+        let rowChecked = false
+        const rowKey = props.rowKey(row)
+        for (let i = 0; i < length; i++) {
+          const selection = selections[i]
+          const selectionKey = props.rowKey(selection)
+          if (rowKey === selectionKey) {
+            rowChecked = true
+            break
+          }
+        }
+        return <NCheckbox checked={ rowChecked }
+                          onUpdateChecked={ e => onChecked(e, [ row ].filter(e => !disabled(e))) }
+                          disabled={ disabled(row) }
+        ></NCheckbox>
+      }
       column = { ...column, width, title, align, titleAlign, render }
     } else { // 普通的表头，传递所有属性
       if (props.sortKey === key)
