@@ -1,7 +1,19 @@
 <script setup lang="tsx">
-import { NCheckbox, NDataTable, NDropdown, NFlex, NIcon, NLayoutFooter, NPagination, useThemeVars } from 'naive-ui'
+import {
+  type DropdownOption,
+  NCheckbox,
+  NDataTable,
+  NDropdown,
+  NFlex,
+  NIcon,
+  NLayoutFooter,
+  NPagination,
+  NSpin,
+  NText,
+  useThemeVars
+} from 'naive-ui'
 import QnIcon from './QnIcon.vue'
-import { Checkbox, CheckboxCheckedFilled } from '@vicons/carbon'
+import { Checkbox } from '@vicons/carbon'
 import { computed, nextTick, onMounted, ref, type VNodeChild, watch } from 'vue'
 import { NumberUtils } from 'qmwts'
 
@@ -31,7 +43,6 @@ const emits = defineEmits([
   'update:sort',
   'update:selections',
   'select-all',
-  'select-page',
   'unselect-all',
 ])
 
@@ -54,6 +65,7 @@ export interface DataTableProps {
   pageSize?: number
   paginationPlacement?: 'top' | 'bottom' | 'fixed-bottom' | 'none'
   selections?: any[]
+  selectionOptions?: DropdownOption[]
   sortOrder?: 'ascend' | 'descend' | false
   sortKey?: string | null
   summary?: () => object
@@ -70,6 +82,7 @@ const props = withDefaults(defineProps<DataTableProps>(), {
   pageSize: 20,
   paginationPlacement: 'bottom',
   selections: () => [],
+  selectionOptions: () => [],
   sortOrder: false,
   sortKey: null,
   rowKey: (row: any) => row.id,
@@ -96,17 +109,6 @@ const paginationProps = computed(() => {
 
 // 勾选的check方法
 const onChecked = (checked: boolean, rows: any[]) => {
-  // const o = [ ...props.selections ]
-  // rows.forEach(row => {
-  //   const index = o.findIndex(e => props.rowKey(e) === props.rowKey(row))
-  //   if (checked && index >= 0) // 勾选且存在，覆盖已存在的选项
-  //     o.splice(index, 1, row)
-  //   else if (checked && index < 0) // 勾选但不存在，末尾插入
-  //     o.push(row)
-  //   else if (!checked && index >= 0) // 反选且存在，删除
-  //     o.splice(index, 1)
-  // })
-  // emits('update:selections', o)
   const o: any[] = []
   const length1 = rows.length
   const { selections } = props
@@ -152,24 +154,6 @@ const mapColumns = (columns: DataTableColumn[]) => {
       width = 50
       align = 'center'
       title = () => {
-        // 勾选列的下拉菜单
-        const titleOptions = [
-          {
-            key: 1,
-            label: () => <NFlex align="center" size={ 2 }>
-              <NIcon size={ 18 }><CheckboxCheckedFilled></CheckboxCheckedFilled></NIcon>
-              { `全选 ${ props.total } 条数据` }
-            </NFlex>,
-          },
-          {
-            key: 2,
-            label: () => <NFlex align="center" size={ 2 }>
-              <NIcon size={ 18 }><Checkbox></Checkbox></NIcon>
-              { `全部取消` }
-            </NFlex>,
-            props: { style: { color: themeVars.value.errorColor } },
-          },
-        ]
         // 是否全选的判断
         const { selections } = props
         let checked = true // 这里预设为true，循环里好判断
@@ -196,23 +180,37 @@ const mapColumns = (columns: DataTableColumn[]) => {
 
         const indeterminate = !checked && selections.length > 0
 
+        // 勾选列的下拉菜单
+        const titleOptions = [
+          ...props.selectionOptions,
+          {
+            label: () => <NFlex align="center" size={ 2 }>
+              <NIcon size={ 18 }><Checkbox></Checkbox></NIcon>
+              全部取消
+            </NFlex>,
+            props: {
+              action: () => {
+                emits('update:selections', [])
+                emits('unselect-all')
+              },
+              style: { color: themeVars.value.errorColor }
+            },
+          },
+        ]
         return <NFlex justify="center" size={ 2 } wrap={ false }>
           <QnIcon icon="chevron-down" style="visibility: hidden"></QnIcon>
           <NCheckbox checked={ checked }
                      indeterminate={ indeterminate }
-                     onUpdateChecked={ checked => {
+                     on-update:checked={ (checked: boolean) => {
                        onChecked(checked, props.data.filter(e => !disabled(e)))
-                       emits('select-page', checked)
+                       emits('select-all', checked)
                      } }
           ></NCheckbox>
           <NDropdown options={ titleOptions }
-                     onSelect={ k => {
-                       if (k === 1) {
-                         emits('select-all')
-                       } else if (k === 2) {
-                         emits('update:selections', [])
-                         emits('unselect-all')
-                       }
+                     on-select={ (_: any, o: DropdownOption) => {
+                       const action = (o.props as any)?.action
+                       if (typeof action === 'function')
+                         action()
                      } }
           >
             <QnIcon icon="chevron-down"></QnIcon>
@@ -234,7 +232,7 @@ const mapColumns = (columns: DataTableColumn[]) => {
           }
         }
         return <NCheckbox checked={ rowChecked }
-                          onUpdateChecked={ e => onChecked(e, [ row ].filter(e => !disabled(e))) }
+                          on-update:checked={ (e: boolean) => onChecked(e, [ row ].filter(e => !disabled(e))) }
                           disabled={ disabled(row) }
         ></NCheckbox>
       }
@@ -307,7 +305,15 @@ const summary0 = () => {
                 :summary="summary ? summary0 : void 0"
                 summary-placement="top"
                 @update:sorter="updateSorter"
-  ></n-data-table>
+  >
+    <template #loading>
+      <n-spin>
+        <template #description>
+          <n-text depth="3">数据加载中</n-text>
+        </template>
+      </n-spin>
+    </template>
+  </n-data-table>
   <n-layout-footer v-bind="paginationProps" ref="footerRef">
     <n-pagination :page="pageNo || 1"
                   :page-size="pageSize || 20"
