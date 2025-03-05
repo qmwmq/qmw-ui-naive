@@ -21,3 +21,8 @@ withDefaults(defineProps<{
     <slot></slot>
   </n-descriptions>
 </template>
+<style scoped>
+:deep(.n-descriptions-table-header) {
+  white-space: nowrap;
+}
+</style>
