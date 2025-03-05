@@ -40,10 +40,11 @@ const emits = defineEmits([
             :disabled="disabled"
             :max-tag-count="maxTagCount"
             :placeholder="placeholder"
-            :render-label="renderLabel ? renderLabel : renderEllipsisLabel"
+            :render-label="renderLabel"
             :fallback-option="fallbackOption"
             :node-props="nodeProps"
             :loading="loading"
+            :consistent-menu-width="false"
             clearable
             filterable
             value-field="id"
