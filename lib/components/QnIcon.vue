@@ -4,6 +4,7 @@ import { computed } from 'vue'
 import type { Depth } from 'naive-ui/lib/icon/src/Icon'
 import {
   Add,
+  AddAlt,
   Application,
   ArrowDown,
   ArrowLeft,
@@ -32,8 +33,11 @@ import {
   Locked,
   Logout,
   Renew,
+  Rotate360,
   Search,
   Settings,
+  Subtract,
+  SubtractAlt,
   Time,
   Upload,
   User,
@@ -42,6 +46,7 @@ import {
 
 const IconMap = {
   'add': Add,
+  'add-alt': AddAlt,
   'application': Application,
   'arrow-down': ArrowDown,
   'arrow-left': ArrowLeft,
@@ -68,9 +73,12 @@ const IconMap = {
   'location': Location,
   'locked': Locked,
   'logout': Logout,
-  'reset': Renew,
+  'refresh': Renew,
+  'reset': Rotate360,
   'search': Search,
   'setup': Settings,
+  'subtract': Subtract,
+  'subtract-alt': SubtractAlt,
   'time': Time,
   'upload': Upload,
   'upload-cloud': CloudUpload,
