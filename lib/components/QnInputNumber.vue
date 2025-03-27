@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { NInputNumber } from 'naive-ui'
-import QnIcon from './QnIcon.vue'
 
 withDefaults(defineProps<{
   value?: any
@@ -18,16 +17,17 @@ const emits = defineEmits([ 'update:value' ])
   <n-input-number :value="value"
                   :disabled="disabled"
                   clearable
+                  :show-button="false"
                   :max="max"
                   :min="min"
                   :placeholder="placeholder"
                   @update:value="emits('update:value', $event)"
   >
-    <template #minus-icon>
-      <qn-icon icon="subtract-alt" :size="18"/>
+    <template #prefix>
+      <slot name="prefix"></slot>
     </template>
-    <template #add-icon>
-      <qn-icon icon="add-alt" :size="18"/>
+    <template #suffix>
+      <slot name="suffix"></slot>
     </template>
   </n-input-number>
 </template>
