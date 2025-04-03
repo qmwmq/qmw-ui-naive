@@ -1,6 +1,7 @@
 <script setup lang="tsx">
 import {
   type DropdownOption,
+  type EllipsisProps,
   NCheckbox,
   NDataTable,
   NDropdown,
@@ -32,7 +33,7 @@ export interface DataTableColumn {
   children?: DataTableColumn[]
   resizable?: boolean
   cellProps?: Function
-  ellipsis?: boolean
+  ellipsis?: boolean | EllipsisProps
 }
 
 const emits = defineEmits([
@@ -145,7 +146,7 @@ const mapColumns = (columns: DataTableColumn[]) => {
                         type,
                         disabled = () => false,
                         resizable = true,
-                        ellipsis = true,
+                        ellipsis = false,
                         children,
                       }: DataTableColumn): any => {
     let column: DataTableColumn = { key, title, titleAlign, fixed, resizable, ellipsis }
