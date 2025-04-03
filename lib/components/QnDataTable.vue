@@ -32,6 +32,7 @@ export interface DataTableColumn {
   children?: DataTableColumn[]
   resizable?: boolean
   cellProps?: Function
+  ellipsis?: boolean
 }
 
 const emits = defineEmits([
@@ -144,9 +145,10 @@ const mapColumns = (columns: DataTableColumn[]) => {
                         type,
                         disabled = () => false,
                         resizable = true,
+                        ellipsis = true,
                         children,
                       }: DataTableColumn): any => {
-    let column: DataTableColumn = { key, title, titleAlign, fixed, resizable }
+    let column: DataTableColumn = { key, title, titleAlign, fixed, resizable, ellipsis }
     if (children) { // 有children则继续渲染children，当前级别的表头不需要继续渲染，因为有些属性不需要生效
       column.children = mapColumns(children)
       column.width = NumberUtils.summation(column.children.map((e: any) => e.width)) // 因为需要计算scrollX，所以需要将children的width读取出来
