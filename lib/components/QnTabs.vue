@@ -47,7 +47,7 @@ const onRight = (element: HTMLElement) => {
 
 // 值发生变化时，令对应的标签滚动到界面中，而不是停留在界面外
 // 不使用scrollIntoView的原因：
-//    1.在复杂页面偶尔会失效，是能使用setTimeout延迟滚动
+//    1.在复杂页面偶尔会失效，只能使用setTimeout延迟滚动
 //    2.无法禁用垂直方向的滚动，如果垂直方向有滚动条回引发垂直方向的滚动
 watch(() => props.value, (value: number | undefined) => {
   if (value === void 0)
