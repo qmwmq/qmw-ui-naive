@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { type MenuOption, NDropdown, NLayoutSider, NMenu } from 'naive-ui'
-import { computed, nextTick, ref, type VNodeChild, watch } from 'vue'
+import { computed, nextTick, ref, useTemplateRef, type VNodeChild, watch } from 'vue'
 import QnIcon, { type Icon } from './QnIcon.vue'
 import { ArrayUtils } from 'qmwts'
 
@@ -38,9 +38,9 @@ watch(() => props.options.find(e => e.id === props.menuId)?.id, menuId => {
   emits('update:module-id', moduleId)
 }, { immediate: true })
 
-const menuRef = ref()
+const menuRef = useTemplateRef('menuRef')
 watch(() => props.options.find(e => e.id === props.menuId)?.id, () => {
-  nextTick(() => menuRef.value.showOption(props.menuId))
+  nextTick(() => menuRef.value?.showOption(props.menuId))
 }, { immediate: true })
 
 const treeOptions = computed((): MenuOption[] =>
@@ -80,7 +80,7 @@ const renderLeftLabel = (option: MenuOption): VNodeChild => {
                     onSelect={ key => emits('update:menu-id', key) }
   >
     <div class="menu-content">
-      <QnIcon icon={ option.iconName as Icon || 'application' } size={ 20 }></QnIcon>
+      <QnIcon icon={ option.iconName as Icon || 'application' } size={ 20 }/>
       <div>{ option.label }</div>
     </div>
   </NDropdown>
@@ -100,7 +100,7 @@ defineSlots<{
                   inverted
                   bordered
   >
-    <slot name="left-header"></slot>
+    <slot name="left-header"/>
     <n-menu :value="moduleId"
             :options="leftOptions"
             :render-label="renderLeftLabel"
@@ -108,7 +108,7 @@ defineSlots<{
             class="left-menu"
             :node-props="() => ({ class: 'left-node' })"
             @update:value="$emit('update:module-id', $event)"
-    ></n-menu>
+    />
   </n-layout-sider>
   <!-- 右侧菜单 -->
   <n-layout-sider :native-scrollbar="false"
@@ -119,14 +119,14 @@ defineSlots<{
                   :show-trigger="collapseTrigger"
                   v-model:collapsed="collapsed"
   >
-    <slot name="right-header" :module="activeModule"></slot>
+    <slot name="right-header" :module="activeModule"/>
     <n-menu ref="menuRef"
             :value="menuId"
             :options="rightOptions(moduleId)"
             :indent="16"
             :accordion="accordion"
             @update:value="$emit('update:menu-id', $event)"
-    ></n-menu>
+    />
   </n-layout-sider>
 </template>
 <style scoped>

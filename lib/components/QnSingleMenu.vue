@@ -3,7 +3,7 @@ import type { Icon } from './QnIcon.vue'
 import QnIcon from './QnIcon.vue'
 import { type MenuOption, NLayoutSider, NMenu } from 'naive-ui'
 import type { Option } from './QnModuleMenu.vue'
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, ref, useTemplateRef, watch } from 'vue'
 import { ArrayUtils } from 'qmwts'
 
 const props = withDefaults(defineProps<{
@@ -16,11 +16,11 @@ const props = withDefaults(defineProps<{
   accordion: true,
 })
 
-const menuRef = ref()
+const menuRef = useTemplateRef('menuRef')
 
 // 根据options和menuId同时确定当前的menuId，因为menuId存在时，options可能为[]
 watch(() => props.options.find(e => e.id === props.menuId)?.id, () => {
-  nextTick(() => menuRef.value.showOption(props.menuId))
+  nextTick(() => menuRef.value?.showOption(props.menuId))
 }, { immediate: true })
 
 const collapsed = ref(false)
@@ -62,7 +62,7 @@ const emits = defineEmits([ 'update:menu-id' ])
                   bordered
                   v-model:collapsed="collapsed"
   >
-    <slot name="header"></slot>
+    <slot name="header"/>
     <n-menu ref="menuRef"
             :value="menuId"
             :options="treeOptions"
@@ -70,6 +70,6 @@ const emits = defineEmits([ 'update:menu-id' ])
             inverted
             :accordion="accordion"
             @update:value="updateMenuId"
-    ></n-menu>
+    />
   </n-layout-sider>
 </template>

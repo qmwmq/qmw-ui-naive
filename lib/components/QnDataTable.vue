@@ -15,7 +15,7 @@ import {
 } from 'naive-ui'
 import QnIcon from './QnIcon.vue'
 import { Checkbox } from '@vicons/carbon'
-import { computed, nextTick, onMounted, ref, type VNodeChild, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, useTemplateRef, type VNodeChild, watch } from 'vue'
 import { NumberUtils } from 'qmwts'
 
 export interface DataTableColumn {
@@ -49,12 +49,12 @@ const emits = defineEmits([
 ])
 
 const themeVars = useThemeVars()
-const footerRef = ref()
+const footerRef = useTemplateRef('footerRef')
 const footerHeight = ref(0)
 
 onMounted(() => {
   nextTick(() => {
-    footerHeight.value = footerRef?.value.$el.clientHeight + 8
+    footerHeight.value = footerRef.value?.$el.clientHeight + 8
   })
 })
 
@@ -201,14 +201,14 @@ const mapColumns = (columns: DataTableColumn[]) => {
           },
         ]
         return <NFlex justify="center" size={ 2 } wrap={ false }>
-          <QnIcon icon="chevron-down" style="visibility: hidden"></QnIcon>
+          <QnIcon icon="chevron-down" style="visibility: hidden"/>
           <NCheckbox checked={ checked }
                      indeterminate={ indeterminate }
                      on-update:checked={ (checked: boolean) => {
                        onChecked(checked, props.data.filter(e => !disabled(e)))
                        emits('select-all', checked)
                      } }
-          ></NCheckbox>
+          />
           <NDropdown options={ titleOptions }
                      on-select={ (_: any, o: DropdownOption) => {
                        const action = (o.props as any)?.action
@@ -216,7 +216,7 @@ const mapColumns = (columns: DataTableColumn[]) => {
                          action()
                      } }
           >
-            <QnIcon icon="chevron-down"></QnIcon>
+            <QnIcon icon="chevron-down"/>
           </NDropdown>
         </NFlex>
       }
@@ -237,7 +237,7 @@ const mapColumns = (columns: DataTableColumn[]) => {
         return <NCheckbox checked={ rowChecked }
                           on-update:checked={ (e: boolean) => onChecked(e, [ row ].filter(e => !disabled(e))) }
                           disabled={ disabled(row) }
-        ></NCheckbox>
+        />
       }
       column = { ...column, width, title, align, titleAlign, render }
     } else { // 普通的表头，传递所有属性
@@ -336,7 +336,7 @@ const summary0 = () => {
     </n-pagination>
   </n-layout-footer>
 
-  <div v-if="props.paginationPlacement === 'fixed-bottom'" :style="{ height: `${ footerHeight }px` }"></div>
+  <div v-if="props.paginationPlacement === 'fixed-bottom'" :style="{ height: `${ footerHeight }px` }"/>
 
 </template>
 <style scoped>

@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { NTabs, useThemeVars } from 'naive-ui'
-
-const themeVars = useThemeVars()
+import { NTabs } from 'naive-ui'
 
 withDefaults(defineProps<{
   value?: string | number
@@ -16,7 +14,7 @@ const emits = defineEmits([ 'update:value' ])
           :size="size"
           @update:value="emits('update:value', $event)"
   >
-    <slot></slot>
+    <slot/>
   </n-tabs>
 </template>
 <style scoped>

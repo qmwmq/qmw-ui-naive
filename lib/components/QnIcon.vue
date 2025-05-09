@@ -104,6 +104,6 @@ const icon0 = computed(() => {
 </script>
 <template>
   <n-icon v-if="icon0" :size="size" :color="color" :depth="depth">
-    <component :is="icon0"></component>
+    <component :is="icon0"/>
   </n-icon>
 </template>

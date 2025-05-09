@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { NEllipsis, NSelect, NSpin, NText, type SelectOption } from 'naive-ui'
+import { NSelect, NSpin, NText, type SelectOption } from 'naive-ui'
 import { type HTMLAttributes, type VNodeChild } from 'vue'
 
 withDefaults(defineProps<{
@@ -17,16 +17,6 @@ withDefaults(defineProps<{
   maxTagCount: 'responsive',
   fallbackOption: false,
 })
-
-const renderEllipsisLabel = (option: SelectOption): VNodeChild => {
-  const tooltip = {
-    keepAliveOnHover: false,
-    showArrow: false,
-    delay: 0,
-    duration: 0,
-  }
-  return <NEllipsis tooltip={ tooltip }>{ option.name }</NEllipsis>
-}
 
 const emits = defineEmits([
   'update:value',
@@ -53,10 +43,10 @@ const emits = defineEmits([
             @update:show="emits('update:show', $event)"
   >
     <template #header>
-      <slot name="header"></slot>
+      <slot name="header"/>
     </template>
     <template #action>
-      <slot name="footer"></slot>
+      <slot name="footer"/>
     </template>
     <template #empty>
       <n-spin v-if="loading">

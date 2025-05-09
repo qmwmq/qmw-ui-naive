@@ -18,7 +18,7 @@ withDefaults(defineProps<{
                   bordered
                   size="small"
   >
-    <slot></slot>
+    <slot/>
   </n-descriptions>
 </template>
 <style scoped>

@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<{
     <qn-icon :icon="icon"
              :size="iconSize"
              style="margin-right: 2px"
-    ></qn-icon>
-    <slot></slot>
+    />
+    <slot/>
   </n-button>
 </template>

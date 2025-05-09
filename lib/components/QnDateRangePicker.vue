@@ -47,7 +47,7 @@ const monthEnd = () => new Date(new Date().getFullYear(), new Date().getMonth() 
                     style="width: 50%"
     >
       <template #date-icon>
-        <qn-icon icon="arrow-right"></qn-icon>
+        <qn-icon icon="arrow-right"/>
       </template>
     </qn-date-picker>
     <qn-date-picker :value="maxValue"
@@ -57,6 +57,6 @@ const monthEnd = () => new Date(new Date().getFullYear(), new Date().getMonth() 
                     :shortcuts="{ '年末': yearEnd, '月末': monthEnd }"
                     @update:value="updateValue({ minValue, maxValue: $event })"
                     style="width: 50%"
-    ></qn-date-picker>
+    />
   </n-input-group>
 </template>

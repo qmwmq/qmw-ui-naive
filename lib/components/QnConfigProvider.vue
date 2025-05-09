@@ -25,6 +25,6 @@ watch(() => props.theme, e => {
                      :theme="{ dark: darkTheme, light: lightTheme }[theme.currentTheme.value]"
                      :theme-overrides="theme.themeOverrides.value"
   >
-    <slot></slot>
+    <slot/>
   </n-config-provider>
 </template>

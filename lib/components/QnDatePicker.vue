@@ -44,7 +44,7 @@ const updateValue = (value: any) => {
                  @update:formatted-value="updateValue"
   >
     <template #date-icon>
-      <slot name="date-icon"></slot>
+      <slot name="date-icon"/>
     </template>
   </n-date-picker>
 </template>

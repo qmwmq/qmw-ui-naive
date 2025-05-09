@@ -22,5 +22,5 @@ const patterns0 = computed(() => {
 <template>
   <n-highlight :text="text0"
                :patterns="patterns0"
-  ></n-highlight>
+  />
 </template>

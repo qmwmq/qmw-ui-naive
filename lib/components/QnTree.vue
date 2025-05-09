@@ -40,5 +40,5 @@ const emits = defineEmits([ 'update:checked-keys' ])
           :render-suffix="renderSuffix"
           :checked-keys="checkedKeys"
           @update:checked-keys="emits('update:checked-keys', $event)"
-  ></n-tree>
+  />
 </template>

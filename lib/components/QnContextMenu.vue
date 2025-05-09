@@ -42,5 +42,5 @@ defineExpose({ show })
               :y="y"
               @clickoutside="() => visible = false"
               @select="select"
-  ></n-dropdown>
+  />
 </template>

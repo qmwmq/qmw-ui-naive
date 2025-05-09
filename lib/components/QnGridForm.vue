@@ -14,7 +14,7 @@ withDefaults(defineProps<{
 <template>
   <n-form label-placement="left" label-width="auto" :size="size">
     <n-grid :cols="cols" :x-gap="XGap">
-      <slot></slot>
+      <slot/>
     </n-grid>
   </n-form>
 </template>

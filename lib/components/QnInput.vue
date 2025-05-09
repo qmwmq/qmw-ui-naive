@@ -18,10 +18,10 @@ const emits = defineEmits([ 'update:value' ])
            @update:value="emits('update:value', $event)"
   >
     <template #prefix>
-      <slot name="prefix"></slot>
+      <slot name="prefix"/>
     </template>
     <template #suffix>
-      <slot name="suffix"></slot>
+      <slot name="suffix"/>
     </template>
   </n-input>
 </template>

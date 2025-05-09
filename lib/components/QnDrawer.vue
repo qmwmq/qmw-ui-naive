@@ -29,13 +29,13 @@ withDefaults(defineProps<{
       </template>
 
       <n-spin :show="loading">
-        <slot></slot>
+        <slot/>
       </n-spin>
 
       <template #footer v-if="$slots.footer">
         <n-flex justify="end">
-          <n-skeleton v-if="loading" width="40%" size="medium" :sharp="false"></n-skeleton>
-          <slot v-else name="footer"></slot>
+          <n-skeleton v-if="loading" width="40%" size="medium" :sharp="false"/>
+          <slot v-else name="footer"/>
         </n-flex>
       </template>
 
