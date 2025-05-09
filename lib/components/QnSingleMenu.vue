@@ -45,11 +45,6 @@ const treeOptions = computed((): MenuOption[] =>
     )
 )
 
-const updateMenuId = (menuId?: number | string) => {
-  const menu = props.options.find(e => e.id === menuId)
-  emits('update:menu-id', menuId, menu?.query)
-}
-
 const emits = defineEmits([ 'update:menu-id' ])
 </script>
 <template>
@@ -69,7 +64,7 @@ const emits = defineEmits([ 'update:menu-id' ])
             :indent="16"
             inverted
             :accordion="accordion"
-            @update:value="updateMenuId"
+            @update:value="emits('update:menu-id', $event)"
     />
   </n-layout-sider>
 </template>

@@ -107,7 +107,7 @@ defineSlots<{
             inverted
             class="left-menu"
             :node-props="() => ({ class: 'left-node' })"
-            @update:value="$emit('update:module-id', $event)"
+            @update:value="emits('update:module-id', $event)"
     />
   </n-layout-sider>
   <!-- 右侧菜单 -->
@@ -125,7 +125,7 @@ defineSlots<{
             :options="rightOptions(moduleId)"
             :indent="16"
             :accordion="accordion"
-            @update:value="$emit('update:menu-id', $event)"
+            @update:value="emits('update:menu-id', $event)"
     />
   </n-layout-sider>
 </template>

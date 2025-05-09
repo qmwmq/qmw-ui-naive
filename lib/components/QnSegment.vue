@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { NTabs } from 'naive-ui'
+import { NTabs, useThemeVars } from 'naive-ui'
 
+const themeVars = useThemeVars()
 withDefaults(defineProps<{
   value?: string | number
   size?: 'small' | 'medium' | 'large'
