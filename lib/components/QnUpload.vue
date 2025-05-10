@@ -3,7 +3,7 @@ import { NFlex, NText, NUpload, NUploadDragger, NUploadTrigger, type UploadCusto
 import QnIcon from './QnIcon.vue'
 import { useTemplateRef } from 'vue'
 
-const uploadRef = useTemplateRef('uploadRef')
+const uploadRef = useTemplateRef('upload')
 const upload = (options: UploadCustomRequestOptions) => {
   console.log(uploadRef.value?.openOpenFileDialog)
   // console.log(123)
@@ -11,7 +11,7 @@ const upload = (options: UploadCustomRequestOptions) => {
 }
 </script>
 <template>
-  <n-upload ref="uploadRef"
+  <n-upload ref="upload"
             abstract
             multiple
             :custom-request="upload"

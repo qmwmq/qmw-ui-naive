@@ -38,7 +38,7 @@ watch(() => props.options.find(e => e.id === props.menuId)?.id, menuId => {
   emits('update:module-id', moduleId)
 }, { immediate: true })
 
-const menuRef = useTemplateRef('menuRef')
+const menuRef = useTemplateRef('menu')
 watch(() => props.options.find(e => e.id === props.menuId)?.id, () => {
   nextTick(() => menuRef.value?.showOption(props.menuId))
 }, { immediate: true })
@@ -120,7 +120,7 @@ defineSlots<{
                   v-model:collapsed="collapsed"
   >
     <slot name="right-header" :module="activeModule"/>
-    <n-menu ref="menuRef"
+    <n-menu ref="menu"
             :value="menuId"
             :options="rightOptions(moduleId)"
             :indent="16"

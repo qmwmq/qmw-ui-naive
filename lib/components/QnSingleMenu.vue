@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<{
   accordion: true,
 })
 
-const menuRef = useTemplateRef('menuRef')
+const menuRef = useTemplateRef('menu')
 
 // 根据options和menuId同时确定当前的menuId，因为menuId存在时，options可能为[]
 watch(() => props.options.find(e => e.id === props.menuId)?.id, () => {
@@ -58,7 +58,7 @@ const emits = defineEmits([ 'update:menu-id' ])
                   v-model:collapsed="collapsed"
   >
     <slot name="header"/>
-    <n-menu ref="menuRef"
+    <n-menu ref="menu"
             :value="menuId"
             :options="treeOptions"
             :indent="16"

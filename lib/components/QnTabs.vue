@@ -20,9 +20,9 @@ const props = withDefaults(defineProps<{
   tabs: () => []
 })
 
-const scrollbarRef = useTemplateRef<typeof Scrollbar>('scrollbarRef')
+const scrollbarRef = useTemplateRef<typeof Scrollbar>('scrollbar')
 const tagRefs = ref<{ [key: number]: any }>({})
-const contextMenuRef = useTemplateRef('contextMenuRef')
+const contextMenuRef = useTemplateRef('contextMenu')
 // 竖向滑轮变横向滚动
 const wheel = (e: WheelEvent) => {
   scrollbarRef.value?.scrollBy({ left: e.deltaY * 2, behavior: 'smooth' })
@@ -94,12 +94,12 @@ const select = (key: string | number, option: DropdownMixedOption, params: any) 
 </script>
 <template>
 
-  <qn-context-menu ref="contextMenuRef"
+  <qn-context-menu ref="contextMenu"
                    :options="dropdownOption"
                    @select="select"
   />
 
-  <n-scrollbar x-scrollable ref="scrollbarRef" @wheel.prevent="wheel">
+  <n-scrollbar x-scrollable ref="scrollbar" @wheel.prevent="wheel">
     <n-flex :wrap="false" :size="6" style="margin: 6px"><!-- 外部边距以及元素间的边距都是6 -->
       <n-tag v-for="i in tabs"
              :key="i.key"

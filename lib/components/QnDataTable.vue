@@ -49,7 +49,7 @@ const emits = defineEmits([
 ])
 
 const themeVars = useThemeVars()
-const footerRef = useTemplateRef('footerRef')
+const footerRef = useTemplateRef('footer')
 const footerHeight = ref(0)
 
 onMounted(() => {
@@ -317,7 +317,7 @@ const summary0 = () => {
       </n-spin>
     </template>
   </n-data-table>
-  <n-layout-footer v-bind="paginationProps" ref="footerRef">
+  <n-layout-footer v-bind="paginationProps" ref="footer">
     <n-pagination :page="pageNo || 1"
                   :page-size="pageSize || 20"
                   :item-count="total"
